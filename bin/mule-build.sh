@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# Variables
-REPO_URL="git@github.com:GetWellClinic/hl7_file_management.git"
-CLONE_DIR="./Docker/mule"
-
-# Clone the repo into ./Docker/mule
-if [ -d "$CLONE_DIR/.git" ]; then
-    echo "Repo already cloned in $CLONE_DIR. Pulling latest changes..."
-    git -C "$CLONE_DIR" pull
-else
-    echo "Cloning repo into $CLONE_DIR..."
-    git clone "$REPO_URL" "$CLONE_DIR"
-fi
-
 # Path to the properties file
 properties_file="./volumes/LabProperties.properties"
 
