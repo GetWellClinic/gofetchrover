@@ -49,6 +49,12 @@ Example:
 ```bash
 docker restart gofetchrover-rover-1
 ```
+### Cron
+The code is set up to run every five minutes. To change the frequency, edit the Docker/rover/Dockerfile file and update the following line:
+``` bash
+RUN echo "*/5 * * * * ...
+```
+Replace `*/5 * * * *` with the desired cron expression.
 
 ### Log file
 Logs are available at: `volumes/rover/gfr.log`
