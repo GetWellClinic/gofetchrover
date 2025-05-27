@@ -1,0 +1,18 @@
+services:
+        muled:
+            restart: 'always'
+            build: Docker/muled
+            volumes:
+                - ./volumes:/volumes
+                - ./Docker/mule/:/mule/
+        rover:
+            restart: 'always'
+            build: Docker/rover
+            volumes:
+                - ./volumes:/volumes
+                - ./Docker/mule/mule-1.3.3/logs:/mule/logs/
+        dcare:
+            restart: 'always'
+            build: Docker/dcare
+            volumes:
+                - ./volumes:/volumes

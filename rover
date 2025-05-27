@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Check if a parameter is passed
+if [ -z "$1" ]; then
+    echo "Error: No service name provided. Please provide 'rover' or 'dcare'."
+    exit 1
+fi
+
+# Use the parameter to determine which service to run
+SERVICE=$1
+
+# Validate the service name
+if [ "$SERVICE" != "rover" ] && [ "$SERVICE" != "dcare" ]; then
+    echo "Error: Invalid service name. Please provide either 'rover' or 'dcare'."
+    exit 1
+fi
+
+# Run the docker-compose up command for the selected service
+docker-compose up -d --build $SERVICE
