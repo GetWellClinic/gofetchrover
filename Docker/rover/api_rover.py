@@ -44,7 +44,7 @@ incoming_xml_folder_path = config["incoming_xml_folder_path"]
 incomingMuleFolder = config["incomingMuleFolder"]
 app_name = config["app_name"]
 app_version = config["app_version"]
-mule_log_file = config["mule_log_file"]
+mule_log_file = "/mule/logs/mule.log"
 
 def is_locked():
     """Check if the lock file exists."""
@@ -108,11 +108,6 @@ def authenticate(base_url):
 
             # Check response status and content
             if response.status_code == 200:
-                # print(base_url)
-                # print(response.status_code)
-                # print(response.headers)
-                # print(response.text)
-                # print(session.cookies)
                 if '<Authentication>AccessGranted</Authentication>' in response.text:
                     # Save cookies for later use
                     cookies = session.cookies

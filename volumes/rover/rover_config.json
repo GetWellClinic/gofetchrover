@@ -9,6 +9,5 @@
     "incoming_HL7_folder_path" : "/volumes/rover/incomingHL7/",
     "incomingMuleFolder" : "/volumes/incoming/lifelabs-keyPair/",
     "app_name" : "GoFetchRover",
-    "app_version" : "1.0.0-alpha",
-    "mule_log_file" : "/mule/logs/mule.log"
+    "app_version" : "1.0.0-alpha"
 }
