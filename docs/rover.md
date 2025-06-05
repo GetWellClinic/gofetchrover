@@ -1,4 +1,4 @@
-# Mule Configuration Details
+# Rover Configuration Details
 
 This script automates the installation process for Rover. It accepts a single argument that specifies the action to perform.
 
@@ -27,15 +27,16 @@ Update the following JSON configuration with your specific values:
     "client_cert_path": "/volumes/rover/your_client_certificate.pem",
     "root_cert_path": "/volumes/rover/your_root_certificate.pem",
     "client_key_path": "/volumes/rover/your_client_key.pem",
-    "incomingMuleFolder": "/volumes/incoming/lifelabs-keyPair/"
+    "incomingMuleFolder": "/volumes/incoming/lifelabs/"
     
 ```
 
 `incomingMuleFolder` is the folder location used for LifeLabs when configuring Mule. Refer to `LabProperties.properties` for the path used for LifeLabs. This folder will have the same name as the key file and is generated during Mule installation.
 
-"client_cert_path", "root_cert_path", and "client_key_path" specify the locations of the certificates.
+For example, if the key file name is `lifelabs.key` when mule was installed, the folder path will be `/volumes/incoming/lifelabs/`.
 
-For example, if the key file name is `lifelabs-keyPair.key`, the folder path will be `/volumes/incoming/lifelabs-keyPair/`.
+
+"client_cert_path", "root_cert_path", and "client_key_path" specify the locations of the certificates.
 
 ### Running Setup
 
