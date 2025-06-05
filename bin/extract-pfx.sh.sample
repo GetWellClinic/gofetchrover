@@ -1,0 +1,90 @@
+#!/bin/bash
+# Original script: gits.github.com/tomfanning/extract-pfx.sh
+# Modified for GoFetchRover
+# Version 2025.05.06
+
+# Autoset base directory for GoFetchRover
+ORIGIN=$(pwd)
+# When this file extract-pfx.sh is installed and running in ../volumes/secrets
+cd ../..
+# When this file extract-pfx.sh is installed and running in ../bin
+# cd ..
+GOFETCHROVER=$(pwd)
+cd $ORIGIN
+
+/bin/echo ""
+/bin/echo "This script is meant to be run from within directory ../volumes/secrets/"
+/bin/echo ""
+/bin/echo "Please confirm correct base directory for GoFetchRover..."
+/bin/echo ""
+/bin/echo "	"$GOFETCHROVER
+/bin/echo ""
+/bin/echo "...if this is incorrect, please press Ctrl-C and cancel script now!"
+read -p "	(otherwise, press any key to continue)"
+
+set -e
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 filename.pfx" >&2
+    exit 1;
+fi
+
+if [ ! -e "$1" ]; then
+    echo "File not found: $1" >&2
+    exit 1;
+fi
+
+filename=$(basename "$1")
+extension="${filename##*.}"
+filename="${filename%.*}"
+
+/bin/echo "...Processing..."$filename"."$extension
+# /bin/echo $filename
+# /bin/echo $extension
+
+echo -n "Please enter the export password of the PFX file: "
+read -s pfxpass
+
+echo
+
+# Extract private key
+openssl pkcs12 -in "$1" -nocerts -out "$filename"_priv.key -passin pass:$pfxpass -passout pass:$pfxpass # > /dev/null
+# Decrypt private key
+openssl rsa -in "$filename"_priv.key -out "$filename"_priv.key -passin pass:$pfxpass > /dev/null
+
+# Extract private key with pass
+# openssl pkcs12 -in "$1" -nocerts -out keyfile-encrypted.key -passin pass:$pfxpass -passout pass:1234 > /dev/null
+# Decrypt private key
+# openssl rsa -in keyfile-encrypted.key -out "$filename.key" -passin pass:1234 > /dev/null
+# Delete encrypted private key
+# rm keyfile-encrypted.key
+
+# Extract client certificate
+openssl pkcs12 -in "$1" -clcerts -nokeys -out "$filename"_client.pem -passin pass:$pfxpass # > /dev/null
+
+# Extract root certificate
+openssl pkcs12 -in "$1" -cacerts -nokeys -out "$filename"_root.pem -passin pass:$pfxpass # > /dev/null
+
+/bin/sleep 1s
+/bin/echo ""
+/bin/echo "Done."
+/bin/echo ""
+# echo "Now to move $filename.crt to /etc/ssl/certs/"
+# echo "     and $filename.key to /etc/ssl/private/"
+
+/bin/echo "Now to move and install:"
+/bin/echo "	"$filename"_client.pem"
+/bin/echo "	"$filename"_root.pem"
+/bin/echo "	"$filename"_priv.key"
+/bin/echo "		to ../volumes/secrets/ for Rover/Excelleris lab connector..."
+/bin/echo ""
+/bin/sleep 1s
+while true; do
+    read -p "Do you want to move the files to default location? (y/n) " yn
+    case $yn in
+#        [Yy]* ) mv "$filename.crt" /etc/ssl/certs/; mv "$filename.key" /etc/ssl/private/; break;;
+        [Yy]* ) /bin/mv $filename"_client.pem" $GOFETCHROVER/volumes/secrets/rover_client_certificate.pem; /bin/mv $filename"_priv.key" $GOFETCHROVER/volumes/secrets/rover_client_key.pem; /bin/mv $filename"_root.pem" $GOFETCHROVER/volumes/secrets/rover_root_certificate.pem; /bin/echo ""; sudo /bin/chown rover:rover $GOFETCHROVER/volumes/secrets/*.pem; sudo chmod g+rx $GOFETCHROVER/volumes/secrets/*.pem; /bin/echo "pem and key files installed."; /bin/echo ""; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done

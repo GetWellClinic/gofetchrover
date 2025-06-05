@@ -5,6 +5,9 @@ logs
 
 # Ignore secrets
 secrets/
+volumes/rover/xml
+volumes/rover/incomingHL7
+volumes/incoming
 
 # Ignore specific files in volumes/rover/
 volumes/rover/*.pem
