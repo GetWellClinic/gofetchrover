@@ -31,7 +31,7 @@ Update the following JSON configuration with your specific values:
     
 ```
 
-`incomingMuleFolder` is the folder location used for LifeLabs when configuring Mule. Refer to `LabProperties.properties` for the path used for LifeLabs. This folder will have the same name as the key file and is generated during Mule installation.
+`incomingMuleFolder` is the folder location used for LifeLabs when configuring Mule. Refer to `LabProperties.properties` for the path used for LifeLabs. This folder will have the same name as the key file in 'volumes/keys/' and is generated during Mule installation.
 
 For example, if the key file name is `lifelabs.key` when mule was installed, the folder path will be `/volumes/incoming/lifelabs/`.
 

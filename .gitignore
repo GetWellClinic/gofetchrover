@@ -5,17 +5,25 @@ logs
 
 # Ignore secrets
 secrets/
+volumes/rover/secrets
 volumes/rover/xml
 volumes/rover/incomingHL7
+volumes/completedHL7dir
+volumes/errorHL7dir
 volumes/incoming
+volumes/LabProperties.properties
+volumes/keys
+
 
 # Ignore specific files in volumes/rover/
 volumes/rover/*.pem
 volumes/rover/secrets
 volumes/rover/*.json
+volumes/rover/*.log
 
 # Ignore specific files in volumes/dcare/
 volumes/dcare/*.json
+volumes/dcare/*.log
 
 # Ignore all *.json files in the repo
 *.json

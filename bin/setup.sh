@@ -27,6 +27,10 @@ read -p "	(Press any key to continue)"
 /bin/sleep 1s
 /bin/mkdir -p "$GOFETCHROVER/logs"
 /bin/mkdir -p "$GOFETCHROVER/volumes/secrets"
+/bin/mkdir -p "$GOFETCHROVER/volumes/keys"
+/bin/mkdir -p "$GOFETCHROVER/volumes/incoming"
+# /bin/mkdir -p "$GOFETCHROVER/volumes/completedHL7dir"
+# /bin/mkdir -p "$GOFETCHROVER/volumes/errorHL7dir"
 /bin/echo ""
 
 # Create JSON from template
@@ -66,6 +70,10 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/secrets"
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/rover/xml"
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/rover/incomingHL7"
+# /bin/chmod o-rwx "$GOFETCHROVER/volumes/LabProperties.properties"
+# /bin/chmod o-rwx "$GOFETCHROVER/volumes/keys"
+# /bin/chmod o-rwx "$GOFETCHROVER/volumes/completedHL7dir"
+# /bin/chmod o-rwx "$GOFETCHROVER/volumes/errorHL7dir"
 # sudo sh -c "/bin/chmod o-rwx $GOFETCHROVER/volumes/rover/*.json" 
 # sudo sh -c "/bin/chmod o-rwx $GOFETCHROVER/volumes/dcare/*.json"
 /bin/echo ""

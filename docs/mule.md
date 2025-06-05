@@ -11,10 +11,10 @@ This script automates the setup, build, and running Mule. It accepts a single ar
 ## Setup Instructions
 
 **Prerequisite:**
-For OSCAR to accept uploads from Mule, key pairs must be configured to authenticate the transfer. Ensure you have the necessary OSCAR key before proceeding.
+For OSCAR to accept uploads from Mule, key pairs must be configured to authenticate the transfer. Ensure you have generated the necessary OSCAR keypair files before proceeding. Use the example template on how the .key files should be formatted. Be sure to use Linux EOL line feeds (LF).
 
 **Important:**  
-Before running the setup command, ensure that all your .key files (without any spaces in their names) are placed in the `volumes/keys` directory. Create the `keys` folder if it does not exist.
+Before running the setup command, ensure that all your OSCAR keypair_*.key files (without any spaces in their names) are placed in the `volumes/keys` directory. Create the `keys` folder if it does not exist.
 
 ### Mule Setup
 
@@ -22,7 +22,7 @@ Before running the setup command, ensure that all your .key files (without any s
 ./mule setup
 ```
 
-This command generates a `LabProperties.properties` file in the `volumes` directory. The file includes all the keys found in `volumes/keys`.
+This command generates a new `LabProperties.properties` file in the `volumes` directory. The file includes all the OSCAR key pairs found in `volumes/keys`.
 
 ### Configuration
 

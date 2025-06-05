@@ -40,6 +40,10 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/secrets"
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/rover/xml"
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/rover/incomingHL7"
+# /bin/chmod o-rwx "$GOFETCHROVER/volumes/LabProperties.properties"
+# /bin/chmod o-rwx "$GOFETCHROVER/volumes/keys"
+# /bin/chmod o-rwx "$GOFETCHROVER/volumes/completedHL7dir"
+# /bin/chmod o-rwx "$GOFETCHROVER/volumes/errorHL7dir"
 # sudo sh -c "/bin/chmod o-rwx $GOFETCHROVER/volumes/rover/*.json" 
 # sudo sh -c "/bin/chmod o-rwx $GOFETCHROVER/volumes/dcare/*.json"
 /bin/echo
