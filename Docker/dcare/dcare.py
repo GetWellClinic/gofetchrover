@@ -11,7 +11,7 @@ def load_config(config_file):
 
 def main():
     # Load config
-    config_file = "/volumes/dcare/dcare_config.json"
+    config_file = "/volumes/dcare/dynacare_config.json"
     config = load_config(config_file)
 
     # Set up logging
