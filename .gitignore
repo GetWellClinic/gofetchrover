@@ -6,3 +6,4 @@ secrets
 volumes/rover/*.pem
 volumes/rover/secrets
 volumes/rover/*.json
+volumes/dcare/*.json
