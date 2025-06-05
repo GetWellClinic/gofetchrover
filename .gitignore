@@ -2,3 +2,7 @@
 .env
 venv
 logs
+secrets
+volumes/rover/*.pem
+volumes/rover/secrets
+volumes/rover/*.json
