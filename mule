@@ -2,7 +2,7 @@
 
 # Function to display usage instructions
 usage() {
-  echo "Usage: $0 [setup|build|install]"
+  echo "Usage: $0 [setup|build|run]"
   exit 1
 }
 
@@ -22,9 +22,9 @@ case "$ACTION" in
     echo "Building Mule"
     ./bin/mule-build.sh
     ;;
-  install)
-    echo "Installing Mule"
-    ./bin/mule-install.sh
+  run)
+    echo "Running Mule"
+    ./bin/mule-run.sh
     ;;
   *)
     echo "Invalid option: $ACTION"

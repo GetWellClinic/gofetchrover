@@ -1,11 +1,11 @@
 # Mule Automation Script
 
-This script automates the setup, build, and installation process for Mule. It accepts a single argument that specifies the action to perform.
+This script automates the setup, build, and running Mule. It accepts a single argument that specifies the action to perform.
 
 ## Usage
 
 ```bash
-./mule [setup|build|install]
+./mule [setup|build|run]
 ```
 
 ## Setup Instructions
@@ -16,7 +16,7 @@ For OSCAR to accept uploads from Mule, key pairs must be configured to authentic
 **Important:**  
 Before running the setup command, ensure that all your .key files (without any spaces in their names) are placed in the `volumes/keys` directory. Create the `keys` folder if it does not exist.
 
-### Running Setup
+### Mule Setup
 
 ```bash
 ./mule setup
@@ -43,11 +43,11 @@ recipientEmailAddress=username@email.com
 Proper configuration of the `smtpServer`, `senderEmailAddress`, and `recipientEmailAddress` ensures accurate and reliable error notifications.
 
 
-### Building and Installing
+### Building and Running
 
 After the above changes, use `./mule build` to build the app with all the keys and settings.
 
-Once build successfully use `./mule install` to install and start mule.
+Once build successfully use `./mule run` to start mule.
 
 Use `docker ps -a` to view the docker app running.
 
