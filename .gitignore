@@ -2,8 +2,24 @@
 .env
 venv
 logs
-secrets
+
+# Ignore secrets
+secrets/
+
+# Ignore specific files in volumes/rover/
 volumes/rover/*.pem
 volumes/rover/secrets
 volumes/rover/*.json
+
+# Ignore specific files in volumes/dcare/
 volumes/dcare/*.json
+
+# Ignore all *.json files in the repo
+*.json
+
+# Ignore all *.pem files in the repo
+*.pem
+
+# Ignore specific config files
+volumes/rover/rover_config.json
+volumes/dcare/dcare_config.json
