@@ -16,6 +16,20 @@ GOFETCHROVER=$(pwd)
 read -p "	(Press any key to continue)"
 /bin/echo ""
 
+# Create rover group, and add user to group
+/bin/echo "Creating group 'rover' and adding user to group..."
+/bin/sleep 1s
+/usr/sbin/useradd -m rover
+# Add current user to rover group
+/usr/sbin/usermod -a -G rover $USER
+# Add default first administrator username to "rover" group
+USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
+/usr/sbin/usermod -a -G rover $USERNAME
+/bin/echo ""
+/bin/echo "Confirming current user belonging to the following groups (check for 'rover')..."
+/usr/bin/groups $USER
+/usr/bin/groups $USERNAME
+
 # Initialize Permissions
 /bin/echo "Fixing permissions..."
 /bin/sleep 1s
