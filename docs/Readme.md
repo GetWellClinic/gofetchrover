@@ -93,7 +93,8 @@ You need to repeat this SETUP step everytime you add a new lab connector.
 ```
 cd /opt/gofetchrover
 sudo ./mule setup
-sudo bin/fix-permissions.sh
+cd bin
+sudo ./fix-permissions.sh
 ```
 Read more in the document [mule.md](docs/mule.md) for detailed instructions.
 
@@ -111,7 +112,8 @@ You will also need to repeat this BUILD step everytime you add a new lab connect
 ```
 cd /opt/gofetchrover
 sudo ./mule build
-sudo bin/fix-permissions.sh
+cd bin
+sudo ./fix-permissions.sh
 ```
 Read more in the document [mule.md](docs/mule.md) for detailed instructions.
 
