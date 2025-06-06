@@ -64,7 +64,7 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /bin/echo "Fixing permissions..."
 /bin/sleep 1s
 /bin/chown rover:rover "$GOFETCHROVER" -R
-/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets
+/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets $GOFETCHROVER/volumes/incoming $GOFETCHROVER/volumes/keys $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/rover
 /bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
 # Protect files and directory from Others
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/secrets"

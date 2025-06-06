@@ -1,4 +1,5 @@
 # Mule Automation Script
+# Version 2025.06.05
 
 This script automates the setup, build, and running Mule. It accepts a single argument that specifies the action to perform.
 
@@ -11,10 +12,11 @@ This script automates the setup, build, and running Mule. It accepts a single ar
 ## Setup Instructions
 
 **Prerequisite:**
-For OSCAR to accept uploads from Mule, key pairs must be configured to authenticate the transfer. Ensure you have generated the necessary OSCAR keypair files before proceeding. Use the example template on how the .key files should be formatted. Be sure to use Linux EOL line feeds (LF).
+For OSCAR to accept uploads from Mule, key pairs must be configured to authenticate the transfer. Ensure you have generated the necessary OSCAR keypair files before proceeding. Use the example template on how the .key files should be formatted.
+Note: The default keypair file that is saved from OSCAR is often malformed. Open the file in an editor like nano or Notepad++ (Windows) and make sure the key is on a single line and not split up on separate lines. Check the end of each lines and be sure to use Linux EOL line feeds (LF). If you show all symbols in a Windows editor like Notepad++ you can see the hidden symbols (LF), be sure to delete any CR symbols. You can also try to convert the EOL (end of line) to Unix style.
 
 **Important:**  
-Before running the setup command, ensure that all your OSCAR keypair_*.key files (without any spaces in their names) are placed in the `volumes/keys` directory. Create the `keys` folder if it does not exist.
+Before running the setup command, ensure that all your OSCAR keypair *.key files (without any spaces in their names) are placed in the `volumes/keys` directory. Create the `keys` folder if it does not exist. Label the keypair filenames simply with name of lab (ie. LifeLabs or Dynacare or AlphaLabs), because the Mule folder names will be created based on the filename (without file extension).
 
 ### Mule Setup
 
