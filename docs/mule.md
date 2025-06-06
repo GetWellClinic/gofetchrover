@@ -1,5 +1,5 @@
 # Mule Automation Script
-# Version 2025.06.05
+*Version 2025.06.05*
 
 This script automates the setup, build, and running Mule. It accepts a single argument that specifies the action to perform.
 

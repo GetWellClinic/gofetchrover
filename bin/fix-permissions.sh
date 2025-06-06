@@ -1,6 +1,6 @@
 #!/bin/bash
 # Setup script for fixing permissions in GoFetchRover after a git pull update
-# Version 2025.06.06
+**Version 2025.06.06**
 
 # Note: This script should be run in ../bin directory for autodetect base directory to be correct
 
@@ -34,6 +34,7 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /bin/echo "Fixing permissions..."
 /bin/sleep 1s
 /bin/chown rover:rover "$GOFETCHROVER" -R
+/bin/chmod g+rx $GOFETCHROVER/volumes/bin/*
 /bin/chmod g+rwx $GOFETCHROVER/volumes/*
 /bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
 # Protect files and directory from Others
