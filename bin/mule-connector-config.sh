@@ -101,6 +101,7 @@ REPO_URL="git@github.com/GetWellClinic/hl7_file_management.git"
 CLONE_DIR="./Docker/mule"
 
 # Clone the repo into ./Docker/mule
+/bin/echo "Attempting to clone Mule HL7 File Management:" $REPO_URL
 if [ -d "$CLONE_DIR/.git" ]; then
     echo "Repo already cloned in $CLONE_DIR. Pulling latest changes..."
     git -C "$CLONE_DIR" pull
