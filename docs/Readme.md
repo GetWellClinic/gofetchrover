@@ -96,7 +96,7 @@ sudo ./mule setup
 cd bin
 sudo ./fix-permissions.sh
 ```
-Read more in the document [mule.md](docs/mule.md) for detailed instructions.
+Read more in the document [mule.md](mule.md) for detailed instructions.
 
 6. Edit the configuration files for each lab connector
 
@@ -115,7 +115,7 @@ sudo ./mule build
 cd bin
 sudo ./fix-permissions.sh
 ```
-Read more in the document [mule.md](docs/mule.md) for detailed instructions.
+Read more in the document [mule.md](mule.md) for detailed instructions.
 
 8. Run Mule on first installation
 
