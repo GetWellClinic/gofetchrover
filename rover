@@ -16,6 +16,6 @@ if [ "$SERVICE" != "rover" ] && [ "$SERVICE" != "dcare" ]; then
 fi
 
 # Run the docker-compose up command for the selected service
-# docker compose up -d --build $SERVICE # Deprecated usage
+# docker-compose up -d --build $SERVICE # Deprecated usage
 docker compose up -d --build $SERVICE
  
