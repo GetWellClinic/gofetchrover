@@ -1,6 +1,6 @@
 #!/bin/bash
 # Setup script for fixing permissions in GoFetchRover after a git pull update
-**Version 2025.06.06**
+**Version 2025.06.07**
 
 # Note: This script should be run in ../bin directory for autodetect base directory to be correct
 
