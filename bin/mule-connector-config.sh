@@ -97,7 +97,7 @@ EOF
 echo "Mule configuration has been saved to $output_file"
 
 # Variables
-REPO_URL="git@github.com/GetWellClinic/hl7_file_management.git"
+REPO_URL="https://github.com/GetWellClinic/hl7_file_management.git"
 CLONE_DIR="./Docker/mule"
 
 # Clone the repo into ./Docker/mule
