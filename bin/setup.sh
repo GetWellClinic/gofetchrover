@@ -55,6 +55,7 @@ read -p "	(Press any key to continue)"
 # Add default first administrator username to "rover" group
 USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /usr/sbin/usermod -a -G rover $USERNAME
+/bin/newgrp rover
 /bin/echo ""
 /bin/echo "Confirming current user belonging to the following groups (check for 'rover')..."
 /usr/bin/groups $USER

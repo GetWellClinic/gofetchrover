@@ -1,5 +1,5 @@
 # Mule Automation Script
-*Version 2025.06.05*
+*Version 2025.06.06*
 
 This script automates the setup, build, and running Mule. It accepts a single argument that specifies the action to perform.
 
@@ -30,11 +30,11 @@ This command generates a new `LabProperties.properties` file in the `volumes` di
 
 After the `LabProperties.properties` file is generated, update the following properties to match your environment:
 
-Replace your_domain, with your domain name or ip address.
+Replace 'your_emr_domain', with your domain name or ip address, including the port number if applicable.
 
 ```properties
 # URL for uploading labs
-oscarURL=https://your_domain/oscar/lab/newLabUpload.do
+oscarURL=https://your_emr_domain:8443/oscar/lab/newLabUpload.do
 
 # SMTP server configuration for error reporting
 smtpServer=server_address:port
