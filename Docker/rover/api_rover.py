@@ -61,24 +61,21 @@ def remove_lock():
     os.remove(lock_file)
 
 def check_log_for_upload(xml_file_name):
-    """Check if the log file contains the specified search string in the last 1000 lines."""
-    search_string = "file: " + xml_file_name + ", Successfully Uploaded"
-    
-    try:
-        with open(mule_log_file, 'r') as file:
-            # Read the last 10000 lines
-            lines = file.readlines()[-10000:]  # Get the last 10000 lines
-            
-            for line in lines:
-                if search_string in line:
-                    return True
-    except FileNotFoundError:
-        logger.error(f"Log file '{mule_log_file}' not found.")
-        return False
-    except Exception as e:
-        logger.error(f"An error occurred: {e}")
-        return False
+    # Define the directories to check
+    completed_dir = '/volumes/completedHL7dir'
+    error_dir = '/volumes/errorHL7dir'
 
+    # First, check if the file exists in the completed directory
+    if os.path.isfile(os.path.join(completed_dir, xml_file_name)):
+        logger.info(f"{xml_file_name} uploaded successfully.")
+        return True  # File found in completed directory
+    
+    # If not found in completed directory, check the error directory
+    elif os.path.isfile(os.path.join(error_dir, xml_file_name)):
+        logger.error(f"Error while uploading {xml_file_name}, check mule logs for more details.")
+        return False  # File found in error directoryS
+
+    logger.error(f"Unknown error, check mule logs for more details.")
     return False
 
 
