@@ -90,6 +90,6 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /bin/echo ""
 
 # Reload group without logging out
-/bin/echo "...reload groups without logging in/out..."
-/bin/newgrp rover docker
-/bin/echo ""
+#/bin/echo "...reload groups without logging in/out..."
+#/bin/newgrp rover docker
+#/bin/echo ""

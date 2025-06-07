@@ -56,5 +56,5 @@ sudo sh -c "/bin/chmod g+rwx $GOFETCHROVER/volumes/*"
 # sudo sh -c "/bin/chmod o-rwx $GOFETCHROVER/volumes/dcare/*.json"
 /bin/echo
 
-/bin/echo "...reloading groups without logging in/out..."
-/bin/newgrp docker rover
+#/bin/echo "...reloading groups without logging in/out..."
+#/bin/newgrp docker rover
