@@ -11,8 +11,12 @@ services:
             volumes:
                 - ./volumes:/volumes
                 - ./Docker/mule/mule-1.3.3/logs:/mule/logs/
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro
         dcare:
             restart: 'always'
             build: Docker/dcare
             volumes:
                 - ./volumes:/volumes
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro

@@ -44,6 +44,7 @@ incoming_xml_folder_path = config["incoming_xml_folder_path"]
 incomingMuleFolder = config["incomingMuleFolder"]
 app_name = config["app_name"]
 app_version = config["app_version"]
+verification_interval = config["verification_interval"]
 mule_log_file = "/mule/logs/mule.log"
 
 def is_locked():
@@ -179,7 +180,7 @@ def query_new_results(session, base_url, cookies, pending=False):
 
         logger.info(f"File copied from {source} to {destination}")
 
-        time.sleep(30)
+        time.sleep(verification_interval)
 
         if check_log_for_upload(file_name):
             return True

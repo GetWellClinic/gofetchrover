@@ -8,6 +8,7 @@
     "incoming_xml_folder_path" : "/volumes/rover/xml/",
     "incoming_HL7_folder_path" : "/volumes/rover/incomingHL7/",
     "incomingMuleFolder" : "/volumes/incoming/lifelabs-keyPair/",
+    "verification_interval" : 60,
     "app_name" : "GoFetchRover",
     "app_version" : "1.0.0-alpha"
 }
