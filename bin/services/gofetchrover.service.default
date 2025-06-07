@@ -1,0 +1,31 @@
+[Unit]
+Description=GoFetchRover Dockers
+After=network.target
+
+# Assumes the path to GoFetchRover base directory is '/opt/gofetchrover'; if different, please edit ExecStart and ExecStop paths below:
+
+[Service]
+# Muled Container should run as 'rover' as long as rover is part of docker group:
+User=rover
+Nice=1
+KillMode=control-group
+# KillMode=none
+# KillMode=mixed
+SuccessExitStatus=0 1
+# Muled Container should have RemainAfterExit=true to ensure it keeps running
+RemainAfterExit=true
+# ProtectHome=true
+# ProtectSystem=full
+# PrivateDevices=true
+# NoNewPrivileges=true
+WorkingDirectory=/opt/gofetchrover
+# Append all the other docker containers that you want to autostart:
+ExecStart=docker start gofetchrover-muled-1 gofetchrover-rover-1
+# Append all the other docker containers that you want to stop:
+ExecStop=docker stop gofetchrover-muled-1 gofetchrover-rover-1
+Restart=on-failure
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target
+
