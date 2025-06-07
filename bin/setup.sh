@@ -55,16 +55,11 @@ read -p "	(Press any key to continue)"
 # Add default first administrator username to "rover" group
 USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /usr/sbin/usermod -a -G rover $USERNAME
-# Reload group without logging out
-/bin/newgrp rover
-/bin/echo ""
 
 # Add current user and rover to docker group
 /usr/sbin/usermod -a -G docker rover
 /usr/sbin/usermod -a -G docker %USER
 /usr/sbin/usermod -a -G docker %USERNAME
-# Reload group without logging out
-/bin/newgrp docker
 
 # Checking groups
 /bin/echo "Confirming current user belonging to the following groups (check for 'docker', and 'rover')..."
@@ -92,4 +87,9 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 
 # Post-installation messages
 /bin/echo "Read ../docs/*.md for instructions on installing mule HL7-uploader, and lab connectors."
+/bin/echo ""
+
+# Reload group without logging out
+/bin/echo "...reload groups without logging in/out..."
+/bin/newgrp rover docker
 /bin/echo ""
