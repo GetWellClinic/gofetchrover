@@ -66,8 +66,8 @@ def check_log_for_upload(xml_file_name):
     
     try:
         with open(mule_log_file, 'r') as file:
-            # Read the last 1000 lines
-            lines = file.readlines()[-1000:]  # Get the last 1000 lines
+            # Read the last 10000 lines
+            lines = file.readlines()[-10000:]  # Get the last 10000 lines
             
             for line in lines:
                 if search_string in line:

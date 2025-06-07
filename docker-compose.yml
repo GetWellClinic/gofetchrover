@@ -5,6 +5,8 @@ services:
             volumes:
                 - ./volumes:/volumes
                 - ./Docker/mule/:/mule/
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro
         rover:
             restart: 'always'
             build: Docker/rover
