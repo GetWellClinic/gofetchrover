@@ -25,17 +25,29 @@ read -p "	(Press any key to continue)"
 # Add default first administrator username to "rover" group
 USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /usr/sbin/usermod -a -G rover $USERNAME
-/bin/echo ""
-/bin/echo "Confirming current user belonging to the following groups (check for 'rover')..."
+# Reload group without logging out
+/bin/newgrp rover
+
+# Add current user and rover to docker group
+/usr/sbin/usermod -a -G docker rover
+/usr/sbin/usermod -a -G docker %USER
+/usr/sbin/usermod -a -G docker %USERNAME
+# Reload group without logging out
+/bin/newgrp docker
+
+# Checking groups
+/bin/echo "Confirming current user belonging to the following groups (check for 'docker', and 'rover')..."
 /usr/bin/groups $USER
 /usr/bin/groups $USERNAME
+/usr/bin/groups rover
+/bin/echo ""
 
 # Initialize Permissions
 /bin/echo "Fixing permissions..."
 /bin/sleep 1s
 /bin/chown rover:rover "$GOFETCHROVER" -R
-/bin/chmod g+rx $GOFETCHROVER/volumes/bin/*
-/bin/chmod g+rwx $GOFETCHROVER/volumes/*
+sudo sh -c "/bin/chmod g+rx $GOFETCHROVER/volumes/bin/*"
+sudo sh -c "/bin/chmod g+rwx $GOFETCHROVER/volumes/*"
 /bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
 # Protect files and directory from Others
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/secrets"

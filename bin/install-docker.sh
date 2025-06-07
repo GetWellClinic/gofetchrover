@@ -43,6 +43,7 @@ docker --version
 
 # Add current user to 'docker' group
 /usr/sbin/usermod -a -G docker $USER
+/usr/sbin/usermod -a -G docker rover
 # Add default first administrator username to 'docker' group
 USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /usr/sbin/usermod -a -G docker $USERNAME
@@ -51,6 +52,7 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /bin/echo "Confirming current user belonging to the following groups (check for 'docker')..."
 /usr/bin/groups $USER
 /usr/bin/groups $USERNAME
+/usr/bin/groups rover
 
 # Install NVIDIA Container Toolkit:
 #
