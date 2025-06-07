@@ -65,15 +65,17 @@ def check_log_for_upload(xml_file_name):
     completed_dir = '/volumes/completedHL7dir'
     error_dir = '/volumes/errorHL7dir'
 
-    # First, check if the file exists in the completed directory
-    if os.path.isfile(os.path.join(completed_dir, xml_file_name)):
-        logger.info(f"{xml_file_name} uploaded successfully.")
-        return True  # File found in completed directory
+    # First, check if a file ends with the name xml_file_name in the completed directory
+    for filename in os.listdir(completed_dir):
+        if filename.endswith(xml_file_name):
+            logger.info(f"{filename} uploaded successfully.")
+            return True  # File found in completed directory
     
     # If not found in completed directory, check the error directory
-    elif os.path.isfile(os.path.join(error_dir, xml_file_name)):
-        logger.error(f"Error while uploading {xml_file_name}, check mule logs for more details.")
-        return False  # File found in error directoryS
+    for filename in os.listdir(error_dir):
+        if filename.endswith(xml_file_name):
+            logger.error(f"Error while uploading {filename}, check mule logs for more details.")
+            return False  # File found in error directoryS
 
     logger.error(f"Unknown error, check mule logs for more details.")
     return False
