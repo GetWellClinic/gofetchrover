@@ -36,6 +36,7 @@ sudo git checkout [dev|main]
 
 ```
 cd /opt/gofetchrover/bin
+sudo chmod ug+rx *.sh
 sudo ./install-docker.sh
 sudo ./setup.sh
 ```
