@@ -18,7 +18,11 @@ RUN apt-get update && \
 RUN pip install --no-cache-dir requests suds
 
 # Add a cron job for rover
-RUN echo "*/5 * * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \
+
+# Download labs every 5 min:
+# RUN echo "*/5 * * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \
+# Download labs every 8 hrs:
+RUN echo "* */8 * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \
     chmod 0644 /etc/cron.d/dcare-script && \
     crontab /etc/cron.d/dcare-script
 

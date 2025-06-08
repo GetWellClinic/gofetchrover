@@ -28,15 +28,19 @@ Update the following JSON configuration with your specific values:
     "root_cert_path": "/volumes/rover/your_root_certificate.pem",
     "client_key_path": "/volumes/rover/your_client_key.pem",
     "incomingMuleFolder": "/volumes/incoming/lifelabs/"
-    
+    "verification_interval": 60,
+    ...
 ```
 
-`incomingMuleFolder` is the folder location used for LifeLabs when configuring Mule. Refer to `LabProperties.properties` for the path used for LifeLabs. This folder will have the same name as the key file in 'volumes/keys/' and is generated during Mule installation.
+`incomingMuleFolder` is the folder location used for LifeLabs when configuring Mule. Refer to `LabProperties.properties` for the path used for LifeLabs. This folder will have the same name as the key file name in 'volumes/keys/*' and is generated during `./mule setup` installation.
+        For example, if the key file name is `LifelabsRover.key` when mule was installed, the folder path will be `/volumes/incoming/LifelabsRover/`.
 
-For example, if the key file name is `lifelabs.key` when mule was installed, the folder path will be `/volumes/incoming/lifelabs/`.
-
-
-"client_cert_path", "root_cert_path", and "client_key_path" specify the locations of the certificates.
+`client_cert_path`, `root_cert_path`, and `client_key_path` specify the locations of the certificates.
+        If you get an "SSL Error: self-signed certificate found in chain", you can try to substitute with:
+        ```
+        "root_cert_path": false,
+        ```
+        "app_name" and "app_version" must remain default values to work with Rover Excelleris, as these completed conformance testing with Lifelabs.
 
 ### Running Setup
 
@@ -51,11 +55,12 @@ Example:
 docker restart gofetchrover-rover-1
 ```
 ### Cron
-The code is set up to run every five minutes. To change the frequency, edit the Docker/rover/Dockerfile file and update the following line:
+The code is set up to run every 8 hrs by default.
+To change the frequency to download every 5 min, edit the Docker/rover/Dockerfile file and update the following line:
 ``` bash
-RUN echo "*/5 * * * * ...
+RUN echo "* */8 * * * ...
 ```
-Replace `*/5 * * * *` with the desired cron expression.
+Replace with `*/5 * * * *` for every 5 min downloads, or any other desired cron expression.
 
 ### Log file
 Logs are available at: `volumes/rover/gfr.log`
