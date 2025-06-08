@@ -129,8 +129,11 @@ sudo docker ps -a
 9. Install the lab downloaders:
 
 **Lab Service:**		**Read Instructions:**
+
 Lifelabs Rover			[rover.md](rover.md)
 Dynacare				[dynacare.md](dynacare.md)
 Alphalabs				
 Med-Health Labs
+
+
 
