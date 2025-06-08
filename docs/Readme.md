@@ -75,65 +75,66 @@ sudo ./setup.sh
 
 4. Extract the certificates and key from Lifelabs
 
-Lifelabs will provide you with login details, and an encrypted certificate package in PFX format.
+	Lifelabs will provide you with login details, and an encrypted certificate package in PFX format.
 
-Upload the Lifelabs PFX file securely to /opt/gofetchrover/volumes/secrets/ with your favourite SSH/SCP terminal.
+	Upload the Lifelabs PFX file securely to /opt/gofetchrover/volumes/secrets/ with your favourite SSH/SCP terminal.
 
-Extract and install the certificates and private key from Lifelabs:
-```
-cd /opt/gofetchrover/volumes/secrets
-sudo extract-pfx.sh {lifelabs_client.pfx}
-(Enter password for PFX file)
-(Choose Yes to 'Do you want to move the files to default location')
-```
+	Extract and install the certificates and private key from Lifelabs:
+	```
+	cd /opt/gofetchrover/volumes/secrets
+	sudo extract-pfx.sh {lifelabs_client.pfx}
+	(Enter password for PFX file)
+	(Choose Yes to 'Do you want to move the files to default location')
+	```
 
 5. Mule Setup
 
-You need to repeat this SETUP step everytime you add a new lab connector.
+	You need to repeat this SETUP step everytime you add a new lab connector.
 
-```
-cd /opt/gofetchrover
-sudo ./mule setup
-cd bin
-sudo ./fix-permissions.sh
-```
-Read more in the document [mule.md](mule.md) for detailed instructions.
+	```
+	cd /opt/gofetchrover
+	sudo ./mule setup
+	cd bin
+	sudo ./fix-permissions.sh
+	```
+	Read more in the document [mule.md](mule.md) for detailed instructions.
 
 6. Edit the configuration files for each lab connector
 
-```
-sudo nano /opt/gofetchrover/volumes/rover/LabProperties.properties
-sudo nano /opt/gofetchrover/volumes/dcare/dynacare_config.json
-```
+	```
+	sudo nano /opt/gofetchrover/volumes/rover/LabProperties.properties
+	sudo nano /opt/gofetchrover/volumes/dcare/dynacare_config.json
+	```
 
 7. Mule Build
 
-You will also need to repeat this BUILD step everytime you add a new lab connector.
+	You will also need to repeat this BUILD step everytime you add a new lab connector.
 
-```
-cd /opt/gofetchrover
-sudo ./mule build
-cd bin
-sudo ./fix-permissions.sh
-```
-Read more in the document [mule.md](mule.md) for detailed instructions.
+	```
+	cd /opt/gofetchrover
+	sudo ./mule build
+	cd bin
+	sudo ./fix-permissions.sh
+	```
+	Read more in the document [mule.md](mule.md) for detailed instructions.
 
 8. Run Mule on first installation
 
-```
-cd /opt/gofetchrover
-sudo ./mule run
-sudo docker ps -a
-```
+	```
+	cd /opt/gofetchrover
+	sudo ./mule run
+	sudo docker ps -a
+	```
 
 9. Install the lab downloaders:
+						
+	Lifelabs/Rover: Read [rover.md](rover.md)
 
-**Lab Service:**		**Read Instructions:**
+	Dynacare: Read [dynacare.md](dynacare.md)
 
-Lifelabs Rover			[rover.md](rover.md)
-Dynacare				[dynacare.md](dynacare.md)
-Alphalabs				
-Med-Health Labs
+	Alphalabs
+
+	Med-Health Labs
 
 
 
