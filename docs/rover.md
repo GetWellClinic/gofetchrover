@@ -5,7 +5,7 @@ This script automates the installation process for Rover. It accepts a single ar
 ## Usage
 
 ```bash
-./rover [rover]
+./gofetch [rover]
 ```
 
 ## Setup Instructions
@@ -45,7 +45,7 @@ Update the following JSON configuration with your specific values:
 ### Running Setup
 
 ```bash
-./rover rover
+./gofetch rover
 ```
 ### Updating Config File
 If required, update the rover-config.json file. There is no need to rebuild; just restart the container.
@@ -55,7 +55,7 @@ Example:
 docker restart gofetchrover-rover-1
 ```
 ### Cron
-The code is set up to run every 8 hrs by default.
+The code is set up to run and download labs every 8 hrs by default.
 To change the frequency to download every 5 min, edit the Docker/rover/Dockerfile file and update the following line:
 ``` bash
 RUN echo "* */8 * * * ...
