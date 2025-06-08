@@ -20,10 +20,10 @@ RUN pip install --no-cache-dir requests
 
 # Add a cron job for rover
 
-# Download labs every 5 minutes:
-# RUN echo "*/5 * * * * /usr/local/bin/python /app/api_rover.py 2>> /volumes/rover/rover_error.log" > /etc/cron.d/api_rover-script && \
 # Download labs every 8 hrs:
-RUN echo "1 */8 * * * /usr/local/bin/python /app/api_rover.py 2>> /volumes/rover/rover_error.log" > /etc/cron.d/api_rover-script && \
+# RUN echo "1 */8 * * * /usr/local/bin/python /app/api_rover.py 2>> /volumes/rover/rover_error.log" > /etc/cron.d/api_rover-script && \
+# Download labs once a day:
+RUN echo "1 7 * * * /usr/local/bin/python /app/api_rover.py 2>> /volumes/rover/rover_error.log" > /etc/cron.d/api_rover-script && \
     chmod 0644 /etc/cron.d/api_rover-script && \
     crontab /etc/cron.d/api_rover-script
 
