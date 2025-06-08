@@ -45,10 +45,10 @@ Example:
 docker restart gofetchrover-dcare-1
 ```
 ### Cron
-The code is set up to run and download labs every 8 hrs minutes, by default.
+The code is set up to run and download labs every 8 hrs, by default.
 To change the frequency to every 5 min, edit the Docker/dcare/Dockerfile file and update the following line:
 ``` bash
-RUN echo "* */8 * * * ...
+RUN echo "1 */8 * * * ...
 ```
 Replace with `*/5 * * * *` for every 5 min, or with any other desired cron expression.
 
