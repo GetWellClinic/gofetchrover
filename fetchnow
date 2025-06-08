@@ -1,0 +1,71 @@
+#!/bin/bash
+# Execute lab download once, now
+# Version 2025.06.08
+
+# Check if a parameter is passed
+if [ -z "$1" ]; then
+	/bin/echo "Error: No service name provided. Please provide 'rover' or 'dcare'."
+	/bin/echo "	Usage: $0 [rover|dcare]"
+	/bin/echo ""
+	exit 1
+fi
+
+# Use the parameter to determine which service to run
+SERVICE=$1
+
+# Identify corresponding container
+case "$SERVICE" in
+	rover)
+		CONTAINER="gofetchrover-rover-1"
+		/bin/echo "'"$SERVICE"' corresponds to docker container: "$CONTAINER
+		;;
+	dcare)
+		CONTAINER="gofetchrover-dcare-1"
+		/bin/echo "'"$SERVICE"' corresponds to docker container: "$CONTAINER
+		;;
+	mule)
+		CONTAINER="gofetchrover-muled-1"
+		/bin/echo "'"$SERVICE"' corresponds to docker container "$CONTAINER
+		;;
+	*)
+		/bin/echo "'"$SERVICE"' does not correspond a known container."
+		;;
+esac
+
+
+# Validate the service name
+if [ "$SERVICE" != "rover" ] && [ "$SERVICE" != "dcare" ] && [ "$SERVICE" != "mule" ]; then
+	echo "Error: Invalid service name. Please provide either 'rover' or 'dcare'."
+	exit 1
+fi
+
+# Check if container is running
+if [ "$( docker container inspect -f '{{.State.Running}}' $CONTAINER )" != "true" ]; then
+	/bin/echo ""
+	docker ps -a
+	/bin/echo ""
+	/bin/echo "Error: '"$CONTAINER "' is not running. Unable to execute command in docker container!"
+	/bin/echo "	Please 'docker start "$CONTAINER"' first."
+	exit 1
+fi
+
+# Trigger lab download
+case "$SERVICE" in
+	rover)
+		/bin/echo "	...triggering lab download with Rover...now..."
+		docker exec -it $CONTAINER python /app/api_rover.py
+		;;
+	dcare)
+		/bin/echo "	...triggering lab download with Dynacare...now..."
+		docker exect -it $CONTAINER python /app/dcare.py
+		;;
+	mule)
+		/bin/echo "	...nothing for Mule yet...."
+		docker exec -it $CONTAINER /bin/echo "		(/app/app-start.sh)"
+		;;
+	*)
+		/bin/echo "Invalid option: "$SERVICE
+		;;
+esac
+
+/bin/echo ""
