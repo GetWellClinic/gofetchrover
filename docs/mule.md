@@ -76,4 +76,7 @@ The files uploaded to Oscar will be stored under `/volumes/completedHL7dir`, and
 
 
 ### Mule Logs
+
+/opt/gofetchrover/Docker/mule/mule-1.3.3/logs/mule.log
+
 `docker logs gofetchrover-muled-1`
