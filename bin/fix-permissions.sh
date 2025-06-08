@@ -44,6 +44,8 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 sudo sh -c "/bin/chmod g+rx $GOFETCHROVER/bin/*"
 sudo sh -c "/bin/chmod g+rwx $GOFETCHROVER/volumes/*"
 /bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
+/bin/chmod ug+rx $GOFETCHROVER/gofetch
+/bin/chmod ug+rx $GOFETCHROVER/mule
 # Protect files and directory from Others
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/secrets"
 # /bin/chmod o-rwx "$GOFETCHROVER/volumes/rover/xml"
