@@ -12,6 +12,13 @@ chmod 755 /etc/init.d/muled
 
 update-rc.d muled defaults
 
+if [ -f "$MULE_HOME/logs/mule.log" ]; then
+    cp "$MULE_HOME/logs/mule.log" "$MULE_HOME/logs/mule.log.$(date +%Y%m%d_%H%M%S).bak"
+    echo "Log backup created."
+else
+    echo "No mule.log file found — skipping backup."
+fi
+
 > "$MULE_HOME/logs/mule.log"
 
 mule start
