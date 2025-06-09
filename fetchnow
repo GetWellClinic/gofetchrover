@@ -49,14 +49,14 @@ if [ "$( docker container inspect -f '{{.State.Running}}' $CONTAINER )" != "true
 	exit 1
 fi
 
-# Trigger lab download
+# Trigger lab download once
 case "$SERVICE" in
 	rover)
-		/bin/echo "	...triggering lab download with Rover...now..."
+		/bin/echo "	...triggering one time lab download with Rover...now..."
 		docker exec -it $CONTAINER python /app/api_rover.py
 		;;
 	dcare)
-		/bin/echo "	...triggering lab download with Dynacare...now..."
+		/bin/echo "	...triggering one time lab download with Dynacare...now..."
 		docker exect -it $CONTAINER python /app/dcare.py
 		;;
 	mule)
