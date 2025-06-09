@@ -29,17 +29,19 @@ Update the following JSON configuration with your specific values:
     "client_key_path": "/volumes/rover/your_client_key.pem",
     "incomingMuleFolder": "/volumes/incoming/lifelabs/"
     "verification_interval": 60,
-    ...
 ```
 
 `incomingMuleFolder` is the folder location used for LifeLabs when configuring Mule. Refer to `LabProperties.properties` for the path used for LifeLabs. This folder will have the same name as the key file name in 'volumes/keys/*' and is generated during `./mule setup` installation.
+
         For example, if the key file name is `LifelabsRover.key` when mule was installed, the folder path will be `/volumes/incoming/LifelabsRover/`.
 
 `client_cert_path`, `root_cert_path`, and `client_key_path` specify the locations of the certificates.
+
         If you get an "SSL Error: self-signed certificate found in chain", you can try to substitute with:
         ```
         "root_cert_path": false,
         ```
+
         "app_name" and "app_version" must remain default values to work with Rover Excelleris, as these completed conformance testing with Lifelabs.
 
 ### Running Setup
