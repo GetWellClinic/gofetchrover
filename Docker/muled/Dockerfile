@@ -30,7 +30,7 @@ COPY ./app/app-start.sh /app/app-start.sh
 # Install the .deb package using dpkg
 RUN dpkg -i /tmp/openlogic-openjdk-jre.deb && \
     apt-get install -f -y && \
-    rm -f /tmp/openlogic-openjdk.deb && \
+    rm -f /tmp/openlogic-openjdk-jre.deb && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Verify the Java installation

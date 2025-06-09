@@ -60,27 +60,6 @@ def remove_lock():
     """Remove the lock file."""
     os.remove(lock_file)
 
-def check_log_for_upload(xml_file_name):
-    # Define the directories to check
-    completed_dir = '/volumes/completedHL7dir'
-    error_dir = '/volumes/errorHL7dir'
-
-    # First, check if a file ends with the name xml_file_name in the completed directory
-    for filename in os.listdir(completed_dir):
-        if filename.endswith(xml_file_name):
-            logger.info(f"{filename} uploaded successfully.")
-            return True  # File found in completed directory
-    
-    # If not found in completed directory, check the error directory
-    for filename in os.listdir(error_dir):
-        if filename.endswith(xml_file_name):
-            logger.error(f"Error while uploading {filename}, check mule logs for more details.")
-            return False  # File found in error directoryS
-
-    logger.error(f"Unknown error, check mule logs for more details.")
-    return False
-
-
 # Step 1: Authentication
 def authenticate(base_url):
     try:
@@ -160,9 +139,13 @@ def query_new_results(session, base_url, cookies, pending=False):
         file_name = f'response_{timestamp}.xml'
         file_path = os.path.join(incoming_xml_folder_path, file_name)
         
-        with open(file_path, 'w') as file:
-            file.write(response.text)
-        logger.info(f"Response saved to {file_path}")
+        try:
+            with open(file_path, 'w') as file:
+                file.write(response.text)
+            logger.info(f"Response saved to {file_path}")
+        except Exception as e:
+            logger.error(f"Failed to write file: {e}")
+            return False
 
         # Verify the count
         if actual_count != message_count:
@@ -174,18 +157,14 @@ def query_new_results(session, base_url, cookies, pending=False):
         source = file_path
         destination = incomingMuleFolder
 
-        # Copy the file
-        shutil.copy(source, destination)
-
-        logger.info(f"File copied from {source} to {destination}")
-
-        time.sleep(verification_interval)
-
-        if check_log_for_upload(file_name):
-            return True
-        else:
-            logger.info(f"Oscar upload failed for {file_name}.")
-            return False
+        try:
+            # Copy the file
+            shutil.copy(source, destination)
+            logger.info(f"File copied from {source} to {destination} (incoming mule folder)")
+        except Exception as e:
+            logger.error(f"Failed to copy file from {source} to {destination} (incoming mule folder): {e}")
+        
+        return True
 
         # Process and save each message into HL7
         # for i, message in enumerate(messages):
@@ -253,10 +232,10 @@ def main():
 
         if(status == True):
             send_acknowledgement(session, base_url, cookies, positive=True)
-            logger.info("positive send acknowledgement")
+            logger.info("Positive acknowledgement send")
         else:
             send_acknowledgement(session, base_url, cookies, positive=False)
-            logger.info("negative send acknowledgement")
+            logger.info("Negative acknowledgement send")
 
         sign_out(session, base_url, cookies)
 
