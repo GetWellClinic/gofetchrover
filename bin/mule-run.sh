@@ -42,4 +42,4 @@ else
     exit 1
 fi
 
-docker compose up -d --build muled
+docker compose up -d --build --force-recreate muled
