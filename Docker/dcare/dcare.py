@@ -26,6 +26,13 @@ def load_config(config_file):
     with open(config_file, 'r') as f:
         return json.load(f)
 
+def fix_base64_padding(b64_string):
+    b64_string = b64_string.strip().replace('\n', '').replace('\r', '')
+    missing_padding = len(b64_string) % 4
+    if missing_padding:
+        b64_string += '=' * (4 - missing_padding)
+    return b64_string
+
 def main():
     # Load config
     config_file = "/volumes/dcare/dynacare_config.json"
@@ -69,7 +76,8 @@ def main():
                         logging.info(f"Downloading {batchInfo.BatchName}...")
                         thisFile = batchClient.service.FetchBatchFile(batchInfo.Id)
 
-                        file_bytes = base64.b64decode(thisFile)
+                        fixed_b64 = fix_base64_padding(thisFile)
+                        file_bytes = base64.b64decode(fixed_b64)
 
                         # Save the file in binary mode
                         with open(os.path.join(save_dir, str(batchInfo.BatchName)), "wb") as f:
