@@ -1,5 +1,6 @@
 # Credit: Original script by Dr. Dr. Ian Pun, adapted for Rover System Downloader
 import json
+import base64
 import ssl
 import os
 import logging
@@ -68,9 +69,11 @@ def main():
                         logging.info(f"Downloading {batchInfo.BatchName}...")
                         thisFile = batchClient.service.FetchBatchFile(batchInfo.Id)
 
+                        file_bytes = base64.b64decode(thisFile)
+
                         # Save the file in binary mode
                         with open(os.path.join(save_dir, str(batchInfo.BatchName)), "wb") as f:
-                            f.write(thisFile)
+                            f.write(file_bytes)
 
                         batchClient.service.AcknowledgeDownloadedBatchFile(batchInfo.Id, True)
                         logging.info(f"Successfully downloaded {batchInfo.BatchName}")
