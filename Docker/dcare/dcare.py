@@ -3,7 +3,23 @@ import json
 import ssl
 import os
 import logging
+import urllib.request  # Import the necessary urllib module
 from suds.client import Client
+from suds.transport.https import HttpTransport
+
+# Create a custom transport that uses the SSL context
+class CustomHttpTransport(HttpTransport):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Create and configure the SSL context
+        self.context = ssl.create_default_context(cafile='/etc/ssl/certs/ca-certificates.crt')
+        self.context.set_ciphers('DEFAULT:@SECLEVEL=1')
+
+    def u2handlers(self):
+        # Use the custom context when creating an HTTPS handler
+        handlers = super().u2handlers()
+        handlers[0] = urllib.request.HTTPSHandler(context=self.context)
+        return handlers
 
 def load_config(config_file):
     with open(config_file, 'r') as f:
@@ -22,10 +38,6 @@ def main():
 
     logger.info("Script is running")
 
-    # Handle SSL certificate verification error
-    if hasattr(ssl, '_create_unverified_context'):
-        ssl._create_default_https_context = ssl._create_unverified_context
-
     # Extract URLs and credentials from config
     authURL = config['authURL']
     batchURL = config['batchURL']
@@ -40,12 +52,12 @@ def main():
     # Log in to GDML Webservice
     logging.info("Logging into GDML Webservice ----")
     try:
-        authClient = Client(authURL)
+        authClient = Client(authURL, transport=CustomHttpTransport())
         logOnSuccess = authClient.service.Login(username=user, password=pw)
 
         if logOnSuccess:
             logging.info("Login successful!")
-            batchClient = Client(batchURL)
+            batchClient = Client(batchURL, transport=CustomHttpTransport())
             batchClient.options.transport.cookiejar = authClient.options.transport.cookiejar
             batchFiles = batchClient.service.FetchAvailableBatchFiles()
 
