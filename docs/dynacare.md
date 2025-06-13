@@ -25,12 +25,15 @@ Update the following JSON configuration with your specific values:
     "batchURL": "https://batches.gd-results.com/Batches.svc?WSDL",
     "user": "your_username",
     "pw": "your_password",
-    "save_dir": "/volumes/incoming/Dynacare"
+    "save_dir": "/volumes/dcare/files",
+    "mule_upload_dir": "/volumes/incoming/Dynacare"
     
 ```
 save_dir: location to save the downloaded files.
 
-For example, if the key file name for dynacare is `Dynacare.key` when mule was installed, the save_dir path will be `/volumes/incoming/Dynacare/`.
+mule_upload_dir: location for mule upload.
+
+For example, if the key file name for dynacare is `Dynacare.key` when mule was installed, the mule_upload_dir path will be `/volumes/incoming/Dynacare/`.
 
 ### Running Setup
 

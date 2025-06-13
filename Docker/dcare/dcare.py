@@ -4,6 +4,7 @@ import base64
 import ssl
 import os
 import logging
+import shutil
 import urllib.request  # Import the necessary urllib module
 from suds.client import Client
 from suds.transport.https import HttpTransport
@@ -26,13 +27,6 @@ def load_config(config_file):
     with open(config_file, 'r') as f:
         return json.load(f)
 
-def fix_base64_padding(b64_string):
-    b64_string = b64_string.strip().replace('\n', '').replace('\r', '')
-    missing_padding = len(b64_string) % 4
-    if missing_padding:
-        b64_string += '=' * (4 - missing_padding)
-    return b64_string
-
 def main():
     # Load config
     config_file = "/volumes/dcare/dynacare_config.json"
@@ -52,10 +46,14 @@ def main():
     user = config['user']
     pw = config['pw']
     save_dir = config['save_dir']
+    mule_upload_dir = config['mule_upload_dir']
 
     # Ensure the save directory exists
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
+
+    if not os.path.exists(mule_upload_dir):
+        os.makedirs(mule_upload_dir)
 
     # Log in to GDML Webservice
     logging.info("Logging into GDML Webservice ----")
@@ -76,12 +74,22 @@ def main():
                         logging.info(f"Downloading {batchInfo.BatchName}...")
                         thisFile = batchClient.service.FetchBatchFile(batchInfo.Id)
 
-                        fixed_b64 = fix_base64_padding(thisFile)
-                        file_bytes = base64.b64decode(fixed_b64)
+                        file_path = os.path.join(save_dir, str(batchInfo.BatchName))
 
                         # Save the file in binary mode
-                        with open(os.path.join(save_dir, str(batchInfo.BatchName)), "wb") as f:
-                            f.write(file_bytes)
+                        with open(file_path, "wb") as f:
+                            f.write(thisFile.encode('utf-8'))
+
+                         # Specify the source file path and the destination file path
+                        source = file_path
+                        destination = mule_upload_dir
+
+                        try:
+                            # Copy the file
+                            shutil.copy(source, destination)
+                            logger.info(f"File copied from {source} to {destination} (incoming mule folder)")
+                        except Exception as e:
+                            logger.error(f"Failed to copy file from {source} to {destination} (incoming mule folder): {e}")
 
                         batchClient.service.AcknowledgeDownloadedBatchFile(batchInfo.Id, True)
                         logging.info(f"Successfully downloaded {batchInfo.BatchName}")
@@ -103,6 +111,8 @@ def main():
                 
         else:
             logging.error("Login failed.")
+    except AttributeError as e:
+        logging.error(f"No new files to download: {e}")
     except Exception as e:
         logging.error(f"Error during login or fetching batches: {e}")
 
