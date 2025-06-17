@@ -18,7 +18,7 @@ RUN apt-get update && \
 # Install Python dependencies using pip
 RUN pip install --no-cache-dir requests suds
 
-# Add a cron job for rover
+# Add a cron job for dynacare
 
 # Download labs every 8 hrs:
 # RUN echo "2 */8 * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \

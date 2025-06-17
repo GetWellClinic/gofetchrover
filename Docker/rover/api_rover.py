@@ -21,13 +21,20 @@ logger = logging.getLogger(__name__)
 # Define the lock file path
 lock_file = script_dir + 'rover.lock'
 
-# Step 2: Construct the path to the configuration file
+# Construct the path to the configuration file
 config_path = os.path.join(script_dir, 'rover_config.json')
 
-# Step 3: Load the configuration file
+# Load the configuration file
 def load_config(config_file):
-    with open(config_file, 'r') as file:
-        return json.load(file)
+    try:
+        with open(config_file, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        logging.error(f"File not found: {config_file}")
+    except json.JSONDecodeError:
+        logging.error(f"Error decoding JSON from the file: {config_file}")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
 
 # Load the configuration
 config = load_config(config_path)
@@ -60,7 +67,7 @@ def remove_lock():
     """Remove the lock file."""
     os.remove(lock_file)
 
-# Step 1: Authentication
+# Authentication
 def authenticate(base_url):
     try:
         with requests.Session() as session:

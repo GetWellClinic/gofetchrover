@@ -24,8 +24,15 @@ class CustomHttpTransport(HttpTransport):
         return handlers
 
 def load_config(config_file):
-    with open(config_file, 'r') as f:
-        return json.load(f)
+    try:
+        with open(config_file, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        logging.error(f"File not found: {config_file}")
+    except json.JSONDecodeError:
+        logging.error(f"Error decoding JSON from the file: {config_file}")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
 
 def main():
     # Load config
