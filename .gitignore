@@ -13,7 +13,7 @@ volumes/errorHL7dir
 volumes/incoming
 volumes/LabProperties.properties
 volumes/keys
-
+volumes/dcare/files
 
 # Ignore specific files in volumes/rover/
 volumes/rover/*.pem

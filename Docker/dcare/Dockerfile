@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir requests suds
 # Download labs every 8 hrs:
 # RUN echo "2 */8 * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \
 # Download lab schedule:
-RUN echo "2 8,19 * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \
+RUN echo "2 8,20 * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \
     chmod 0644 /etc/cron.d/dcare-script && \
     crontab /etc/cron.d/dcare-script
 
