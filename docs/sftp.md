@@ -15,14 +15,19 @@ This script automates the installation process for SFTP downloader. It accepts a
 Mule should be installed. [Mule Setup Guide](mule.md)
 
 **Important:**  
+
 For medhealth:
+
 Before running the setup command, ensure that the following contents in `volumes/medhealth/medhealth_config.json` are updated.
 
 For alphalab:
+
 Before running the setup command, ensure that the following contents in `volumes/alphalab/alphalab_config.json` are updated.
 
 Update the following JSON configuration with your specific values:
+
 For alphalab
+
 ```json
 
 {
@@ -41,6 +46,7 @@ For alphalab
 ```
 
 For medhealth
+
 ```json
 
 {
@@ -58,13 +64,17 @@ For medhealth
     
 ```
 remote_dir: Server location of the files to be downloaded.
+
 local_dir: Location to save the downloaded files locally.
+
 mule_upload_dir: Location for Mule uploads.
 
 last_downloaded_file: The modification time (mtime) of the last downloaded file.
+
 For example, if last_downloaded_file is "2025-05-27 00:00:00", only files with an mtime after this timestamp will be downloaded.
 
 delete_files: Deletes files from the server if set to true.
+
 delete_files_older_than: When set to 20, deletes files older than 20 days. Files less than 15 days old will not be deleted as a precaution.
 
 For example, if the key file name for alphalab is `alphalab.key` when mule was installed, the mule_upload_dir path will be `/volumes/incoming/alphalab/`.
