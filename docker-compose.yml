@@ -22,3 +22,23 @@ services:
                 - ./volumes:/volumes
                 - /etc/localtime:/etc/localtime:ro
                 - /etc/timezone:/etc/timezone:ro
+        medhealth:
+            restart: 'always'
+            build:
+                context: Docker/sftp
+                args:
+                    SFTP_NAME: medhealth
+            volumes:
+                - ./volumes:/volumes
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro
+        alphalab:
+            restart: 'always'
+            build:
+                context: Docker/sftp
+                args:
+                    SFTP_NAME: alphalab
+            volumes:
+                - ./volumes:/volumes
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro
