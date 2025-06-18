@@ -17,12 +17,12 @@ Mule should be installed. [Mule Setup Guide](mule.md)
 **Important:**  
 Before running the setup command, ensure that the following contents in `volumes/dcare/dynacare_config.json` are updated.
 
-Update the following JSON configuration with your specific values:
+Update the following JSON configuration with your specific values. Be sure to confirm/edit the URL for Dynacare download:
 
 ```json
 
-    "authURL": "https://batches.gd-results.com/LogonService.svc?WSDL",
-    "batchURL": "https://batches.gd-results.com/Batches.svc?WSDL",
+    "authURL": "https://lab.batches.gd-results.com/LogonService.svc?WSDL",
+    "batchURL": "https://lab.batches.gd-results.com/Batches.svc?WSDL",
     "user": "your_username",
     "pw": "your_password",
     "save_dir": "/volumes/dcare/files",

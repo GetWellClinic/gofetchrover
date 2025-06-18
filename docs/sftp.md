@@ -31,10 +31,10 @@ Before running the setup command, ensure that the following contents in `volumes
         "password": "password",
         "remote_dir": "/",
         "local_dir": "/volumes/medhealth/files",
-        "mule_upload_dir": "/volumes/incoming/medhealth",
+        "mule_upload_dir": "/volumes/incoming/MedHealthLab",
         "last_downloaded_file": "2025-05-27 00:00:00",
         "delete_files" : false,
-        "delete_files_older_than" : 1000
+        "delete_files_older_than" : 365
     }
     ```
 
@@ -51,10 +51,10 @@ Before running the setup command, ensure that the following contents in `volumes
         "password": "password",
         "remote_dir": "/",
         "local_dir": "/volumes/alphalab/files",
-        "mule_upload_dir": "/volumes/incoming/alphalab",
+        "mule_upload_dir": "/volumes/incoming/AlphaLabs",
         "last_downloaded_file": "2025-05-27 00:00:00",
         "delete_files" : false,
-        "delete_files_older_than" : 1000
+        "delete_files_older_than" : 365
     }   
     ```
 
@@ -74,9 +74,9 @@ For example, if last_downloaded_file is "2025-05-27 00:00:00", only files with a
 
 delete_files: Deletes files from the server if set to true.
 
-delete_files_older_than: When set to 20, deletes files older than 20 days. Files less than 15 days old will not be deleted as a precaution.
+delete_files_older_than: When set to 20, deletes files older than 20 days on the SFTP server. Files less than 15 days old will not be deleted as a precaution.
 
-For example, if the key file name for alphalab is `alphalab.key` when mule was installed, the mule_upload_dir path will be `/volumes/incoming/alphalab/`.
+For example, if the key file name for alphalab is `AlphaLabs.key` when mule was installed, the mule_upload_dir path will be `/volumes/incoming/AlphaLabs/`.
 
 ### Running Setup
 For AlphaLabs

@@ -1,11 +1,11 @@
 #!/bin/bash
 # Execute lab download once, now
-# Version 2025.06.08
+# Version 2025.06.17
 
 # Check if a parameter is passed
 if [ -z "$1" ]; then
-	/bin/echo "Error: No service name provided. Please provide 'rover' or 'dcare'."
-	/bin/echo "	Usage: $0 [rover|dcare]"
+	/bin/echo "Error: No service name provided. Please provide 'rover', 'dcare' etc."
+	/bin/echo "	Usage: $0 [ rover | dcare | alphalab | medhealth ]"
 	/bin/echo ""
 	exit 1
 fi
@@ -27,6 +27,14 @@ case "$SERVICE" in
 		CONTAINER="gofetchrover-muled-1"
 		/bin/echo "'"$SERVICE"' corresponds to docker container "$CONTAINER
 		;;
+	medhealth)
+		CONTAINER="gofetchrover-medhealth-1"
+		/bin/echo "'"$SERVICE"' corresponds to docker container "$CONTAINER
+		;;
+	alphalab)
+		CONTAINER="gofetchrover-alphalab-1"
+		/bin/echo "'"$SERVICE"' corresponds to docker container "$CONTAINER
+		;;
 	*)
 		/bin/echo "'"$SERVICE"' does not correspond a known container."
 		;;
@@ -34,8 +42,8 @@ esac
 
 
 # Validate the service name
-if [ "$SERVICE" != "rover" ] && [ "$SERVICE" != "dcare" ] && [ "$SERVICE" != "mule" ]; then
-	echo "Error: Invalid service name. Please provide either 'rover' or 'dcare'."
+if [ "$SERVICE" != "rover" ] && [ "$SERVICE" != "dcare" ] && [ "$SERVICE" != "mule" ] && [ "$SERVICE" != "medhealth" ] && [ "$SERVICE" != "alphalab" ]; then
+	echo "Error: Invalid service name. Please provide either 'rover', 'dcare', 'medhealth', or 'alphalab'."
 	exit 1
 fi
 
@@ -62,6 +70,14 @@ case "$SERVICE" in
 	mule)
 		/bin/echo "	...nothing for Mule yet...."
 		docker exec -it $CONTAINER /bin/echo "		(/app/app-start.sh)"
+		;;
+	medhealth)
+		/bin/echo "	...triggering one time lab download with Med-Health Labs...now..."
+		docker exect -it $CONTAINER python /app/sftp_gofetch.py
+		;;
+	alphalab)
+		/bin/echo "	...triggering one time lab download with AlphaLabs...now..."
+		docker exect -it $CONTAINER python /app/sftp_gofetch.py
 		;;
 	*)
 		/bin/echo "Invalid option: "$SERVICE

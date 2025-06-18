@@ -31,8 +31,11 @@ read -p "	(Press any key to continue)"
 /bin/mkdir -p "$GOFETCHROVER/volumes/secrets"
 /bin/mkdir -p "$GOFETCHROVER/volumes/keys"
 /bin/mkdir -p "$GOFETCHROVER/volumes/incoming"
-# /bin/mkdir -p "$GOFETCHROVER/volumes/completedHL7dir"
-# /bin/mkdir -p "$GOFETCHROVER/volumes/errorHL7dir"
+/bin/mkdir -p "$GOFETCHROVER/volumes/completedHL7dir"
+/bin/mkdir -p "$GOFETCHROVER/volumes/errorHL7dir"
+/bin/mkdir -p "$GOFETCHROVER/volumes/dcare/files"
+/bin/mkdir -p "$GOFETCHROVER/volumes/alphalab/files"
+/bin/mkdir -p "$GOFETCHROVER/volumes/medhealth/files"
 /bin/echo ""
 
 # Create JSON from template
@@ -75,7 +78,7 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /bin/echo "Fixing permissions..."
 /bin/sleep 1s
 /bin/chown rover:rover "$GOFETCHROVER" -R
-/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets $GOFETCHROVER/volumes/incoming $GOFETCHROVER/volumes/keys $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/rover $GOFETCHROVER/volumes/alphalab $GOFETCHROVER/volumes/medhealth
+/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets $GOFETCHROVER/volumes/incoming $GOFETCHROVER/volumes/keys $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/rover $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/dcare/files $GOFETCHROVER/volumes/alphalab $GOFETCHROVER/volumes/alphalab/files $GOFETCHROVER/volumes/medhealth $GOFETCHROVER/volumes/medhealth/files 
 /bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
 /bin/chmod ug+rx $GOFETCHROVER/gofetch
 /bin/chmod ug+rx $GOFETCHROVER/fetchnow

@@ -1,6 +1,6 @@
 {
-    "authURL": "https://batches.gd-results.com/LogonService.svc?WSDL",
-    "batchURL": "https://batches.gd-results.com/Batches.svc?WSDL",
+    "authURL": "https://lab.batches.gd-results.com/LogonService.svc?WSDL",
+    "batchURL": "https://lab.batches.gd-results.com/Batches.svc?WSDL",
     "user": "your_username",
     "pw": "your_password",
     "save_dir": "/volumes/dcare/files",
