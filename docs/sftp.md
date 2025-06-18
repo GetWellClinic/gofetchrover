@@ -1,68 +1,67 @@
 # SFTP Configuration Details
+# Version 2025.06.17
 
 This script automates the installation process for SFTP downloader. It accepts a single argument that specifies the action to perform.
 
 ## Usage
 
 ```bash
-./gofetch [sftp] [medhealth | alphalab]
+./gofetch [sftp] [medhealth | alphalab | ... ]
 ```
 
 ## Setup Instructions
 
 **Prerequisite:**
 
+You have already installed GoFetchRover. [GoFetchRover Setup Guide](Readme.md)
+
 Mule should be installed. [Mule Setup Guide](mule.md)
 
 **Important:**  
 
-For medhealth:
+For Med-Health Labs:
 
 Before running the setup command, ensure that the following contents in `volumes/medhealth/medhealth_config.json` are updated.
 
-For alphalab:
+    ```json
+    {
+        "hostname": "Host Address",
+        "port": 22,
+        "username": "username",
+        "password": "password",
+        "remote_dir": "/",
+        "local_dir": "/volumes/medhealth/files",
+        "mule_upload_dir": "/volumes/incoming/medhealth",
+        "last_downloaded_file": "2025-05-27 00:00:00",
+        "delete_files" : false,
+        "delete_files_older_than" : 1000
+    }
+    ```
+
+
+For AlphaLabs:
 
 Before running the setup command, ensure that the following contents in `volumes/alphalab/alphalab_config.json` are updated.
 
-Update the following JSON configuration with your specific values:
+    ```json
+    {
+        "hostname": "Host Address",
+        "port": 22,
+        "username": "username",
+        "password": "password",
+        "remote_dir": "/",
+        "local_dir": "/volumes/alphalab/files",
+        "mule_upload_dir": "/volumes/incoming/alphalab",
+        "last_downloaded_file": "2025-05-27 00:00:00",
+        "delete_files" : false,
+        "delete_files_older_than" : 1000
+    }   
+    ```
 
-For alphalab
+Parameter details:
 
-```json
+hostname:   IP address or URL of SFTP site.
 
-{
-    "hostname": "Host Address",
-    "port": 22,
-    "username": "username",
-    "password": "password",
-    "remote_dir": "/",
-    "local_dir": "/volumes/alphalab/files",
-    "mule_upload_dir": "/volumes/incoming/alphalab",
-    "last_downloaded_file": "2025-05-27 00:00:00",
-    "delete_files" : false,
-    "delete_files_older_than" : 1000
-}
-    
-```
-
-For medhealth
-
-```json
-
-{
-    "hostname": "Host Address",
-    "port": 22,
-    "username": "username",
-    "password": "password",
-    "remote_dir": "/",
-    "local_dir": "/volumes/medhealth/files",
-    "mule_upload_dir": "/volumes/incoming/medhealth",
-    "last_downloaded_file": "2025-05-27 00:00:00",
-    "delete_files" : false,
-    "delete_files_older_than" : 1000
-}
-    
-```
 remote_dir: Server location of the files to be downloaded.
 
 local_dir: Location to save the downloaded files locally.
@@ -80,11 +79,11 @@ delete_files_older_than: When set to 20, deletes files older than 20 days. Files
 For example, if the key file name for alphalab is `alphalab.key` when mule was installed, the mule_upload_dir path will be `/volumes/incoming/alphalab/`.
 
 ### Running Setup
-For alphalab
+For AlphaLabs
 ```bash
 ./gofetch sftp alphalab
 ```
-For medhealth
+For Med-Health Labs
 ```bash
 ./gofetch sftp medhealth
 ```

@@ -3,7 +3,7 @@
 # This script should reside and be run in the gofetchrover directory 'bin' in order to properly autodetect base directory for GoFetchRover.
 # Run the script as 'sudo ./install-services.sh'
 
-# Version 2025.06.07
+# Version 2025.06.16
 
 CURRENT=$(pwd)
 # Automatic detect base directory for GoFetchRover:

@@ -5,15 +5,20 @@ logs
 
 # Ignore secrets
 secrets/
+volumes/secrets
 volumes/rover/secrets
-volumes/rover/xml
-volumes/rover/incomingHL7
-volumes/completedHL7dir
-volumes/errorHL7dir
-volumes/incoming
 volumes/LabProperties.properties
 volumes/keys
+
+# Ignore lab files
+volumes/errorHL7dir
+volumes/rover/incomingHL7
+volumes/completedHL7dir
+volumes/incoming
+volumes/rover/xml
 volumes/dcare/files
+volumes/medhealth/files
+volumes/alphalabs/files
 
 # Ignore specific files in volumes/rover/
 volumes/rover/*.pem
@@ -34,3 +39,5 @@ volumes/dcare/*.log
 # Ignore specific config files
 volumes/rover/rover_config.json
 volumes/dcare/dcare_config.json
+volumes/alphalabs/alphalab_config.json
+volumes/medhealth/medhealth_config.json

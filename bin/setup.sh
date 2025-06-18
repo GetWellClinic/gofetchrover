@@ -1,6 +1,6 @@
 #!/bin/bash
 # Setup script for GoFetchRover
-# Version 2025.06.08
+# Version 2025.06.17
 
 # Note: This script should be run in ../bin directory for autodetect base directory to be correct
 
@@ -21,6 +21,8 @@ read -p "	(Press any key to continue)"
 /bin/sleep 1s
 /bin/cp "$GOFETCHROVER/volumes/rover/rover_config.json" "$GOFETCHROVER/volumes/rover/rover_config.json.$(date +'%Y-%m-%d')"
 /bin/cp "$GOFETCHROVER/volumes/dcare/dynacare_config.json" "$GOFETCHROVER/volumes/dcare/dynacare_config.json.$(date +'%Y-%m-%d')"
+/bin/cp "$GOFETCHROVER/volumes/alphalab/alphalab_config.json" "$GOFETCHROVER/volumes/alphalab/alphalab_config.json.$(date +'%Y-%m-%d')"
+/bin/cp "$GOFETCHROVER/volumes/medhealth/medhealth_config.json" "$GOFETCHROVER/volumes/medhealth/medhealth_config.json.$(date +'%Y-%m-%d')"
 
 # Create directories
 /bin/echo "Creating directories..."
@@ -38,6 +40,8 @@ read -p "	(Press any key to continue)"
 /bin/sleep 1s
 /usr/bin/cp "$GOFETCHROVER/volumes/rover/rover_config.json.example" "$GOFETCHROVER/volumes/rover/rover_config.json"
 /usr/bin/cp "$GOFETCHROVER/volumes/dcare/dynacare_config.json.example" "$GOFETCHROVER/volumes/dcare/dynacare_config.json"
+/usr/bin/cp "$GOFETCHROVER/volumes/alphalab/alphalab_config.json.example" "$GOFETCHROVER/volumes/alphalab/alphalab_config.json"
+/usr/bin/cp "$GOFETCHROVER/volumes/medhealth/medhealth_config.json.example" "$GOFETCHROVER/volumes/medhealth/medhealth_config.json"
 /bin/echo ""
 
 # Copying extract-pfx.sh tool
@@ -71,7 +75,7 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /bin/echo "Fixing permissions..."
 /bin/sleep 1s
 /bin/chown rover:rover "$GOFETCHROVER" -R
-/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets $GOFETCHROVER/volumes/incoming $GOFETCHROVER/volumes/keys $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/rover
+/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets $GOFETCHROVER/volumes/incoming $GOFETCHROVER/volumes/keys $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/rover $GOFETCHROVER/volumes/alphalab $GOFETCHROVER/volumes/medhealth
 /bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
 /bin/chmod ug+rx $GOFETCHROVER/gofetch
 /bin/chmod ug+rx $GOFETCHROVER/fetchnow
