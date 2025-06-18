@@ -23,7 +23,7 @@ ENV SFTP_NAME=${SFTP_NAME}
 
 # Add a cron job for sftp gofetch
 RUN echo "SFTP_NAME=${SFTP_NAME}" >> /etc/environment && \
-    echo "1 8,20 * * * /usr/local/bin/python /app/sftp_gofetch.py 2>> /volumes/${SFTP_NAME}/sftp_gofetch_error.log" > /etc/cron.d/sftp_gofetch-script && \
+    echo "3 8,20 * * * /usr/local/bin/python /app/sftp_gofetch.py 2>> /volumes/${SFTP_NAME}/sftp_gofetch_error.log" > /etc/cron.d/sftp_gofetch-script && \
         chmod 0644 /etc/cron.d/sftp_gofetch-script && \
     crontab /etc/cron.d/sftp_gofetch-script
 
