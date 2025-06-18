@@ -20,9 +20,9 @@ RemainAfterExit=true
 # NoNewPrivileges=true
 WorkingDirectory=/opt/gofetchrover
 # Append all the other docker containers that you want to autostart:
-ExecStart=docker start gofetchrover-muled-1 gofetchrover-rover-1 gofetchrover-dcare-1
+ExecStart=docker start gofetchrover-muled-1 gofetchrover-rover-1 gofetchrover-dcare-1 gofetchrover-medhealth-1 gofetchrover-alphalab-1
 # Append all the other docker containers that you want to stop:
-ExecStop=docker stop gofetchrover-muled-1 gofetchrover-rover-1 gofetchrover-dcare-1
+ExecStop=docker stop gofetchrover-muled-1 gofetchrover-rover-1 gofetchrover-dcare-1 gofetchrover-medhealth-1 gofetchrover-alphalab-1
 Restart=on-failure
 RestartSec=30s
 

@@ -24,6 +24,7 @@ You have received a Lifelabs PFX encrypted file with certificates.
 Copy your PFX file that Lifelabs provides you to `volumes/secrets/`.
 
 Extract the contents of the PFX file (ie. 'clinic-lifelabs.pfx') with the password supplied by Lifelabs.
+
     ```
     cd /opt/gofetchrover/secrets
     ./extract-pfx.sh clinic-lifelabs.pfx
@@ -52,19 +53,32 @@ Update the following JSON configuration with your specific values:
 ```
 
    base_url:
+
         Change this to the production or test instance URL.
 
    client_cert_path, and client_key_path specify the locations of Lifelab's provided certificates.
    
    root_cert_path:
+
         For test instance, use the Lifelabs provided root certificate from the PFX, ie. `rover_root_certificate.pem`.
+
         For production instance that uses a commercially signed SSL certificate, substitute the path with `/etc/ssl/certs/ca-certificates.crt`.
+
         For self signed certificates, substitute this line with
+
             ```
             "root_cert_path": false,
             ```
+        You can issue this command to check the status of the server's SSL certificates:
+
+        ```
+        openssl s_client -showcerts -connect api.ontest.excelleris.com:443
+        ```
+
   incomingMuleFolder:
+
         This is the folder location used for LifeLabs when configuring Mule. Refer to `LabProperties.properties` for the path used for LifeLabs. This folder will have the same name as the key file name in 'volumes/keys/*' and is generated during `./mule setup` installation.
+
         For example, if the key file name is `LifelabsRover.key` when mule was installed, the folder path will be `/volumes/incoming/LifelabsRover/`.
 
   "app_name" and "app_version" must remain default values to work with Rover Excelleris, as these completed conformance testing with Lifelabs.
