@@ -7,9 +7,9 @@ import shutil
 
 SFTP_NAME = os.getenv('SFTP_NAME')
 
-script_dir = "/volumes/" + SFTP_NAME
+script_dir = f"/volumes/{SFTP_NAME}"
 
-log_file = "/volumes/" + SFTP_NAME + "/" + SFTP_NAME +".log"
+log_file = f"/volumes/{SFTP_NAME}/{SFTP_NAME}.log"
 
 sftp_config_file = SFTP_NAME +"_config.json"
 
@@ -125,10 +125,12 @@ def sftp_gofetch_downloader():
         for file_attr in sorted_files:
             # Just file names
             filename = file_attr.filename
+            if SFTP_NAME == "alphalab":
+                filename = f"alpha_{filename}"
             file_mtime = datetime.datetime.fromtimestamp(file_attr.st_mtime)
             if file_mtime > last_downloaded_dt:
 
-                remote_file_path = os.path.join(remote_dir, filename)
+                remote_file_path = os.path.join(remote_dir, file_attr.filename)
                 local_file_path = os.path.join(local_dir, filename)
                 logger.info(remote_file_path)
                 
