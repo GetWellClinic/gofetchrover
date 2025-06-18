@@ -65,7 +65,7 @@ case "$SERVICE" in
 		;;
 	dcare)
 		/bin/echo "	...triggering one time lab download with Dynacare...now..."
-		docker exect -it $CONTAINER python /app/dcare.py
+		docker exec -it $CONTAINER python /app/dcare.py
 		;;
 	mule)
 		/bin/echo "	...nothing for Mule yet...."
@@ -73,11 +73,11 @@ case "$SERVICE" in
 		;;
 	medhealth)
 		/bin/echo "	...triggering one time lab download with Med-Health Labs...now..."
-		docker exect -it $CONTAINER python /app/sftp_gofetch.py
+		docker exec -it $CONTAINER python /app/sftp_gofetch.py
 		;;
 	alphalab)
 		/bin/echo "	...triggering one time lab download with AlphaLabs...now..."
-		docker exect -it $CONTAINER python /app/sftp_gofetch.py
+		docker exec -it $CONTAINER python /app/sftp_gofetch.py
 		;;
 	*)
 		/bin/echo "Invalid option: "$SERVICE
