@@ -7,6 +7,8 @@ WORKDIR /app
 # Copy over app
 COPY dcare.py /app
 
+COPY logs.sh /usr/local/bin/logs.sh
+
 # Install system dependencies
 RUN apt-get update && \
     apt-get install -y \
@@ -20,12 +22,11 @@ RUN pip install --no-cache-dir requests suds
 
 # Add a cron job for dynacare
 
-# Download labs every 8 hrs:
-# RUN echo "2 */8 * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \
 # Download lab schedule:
-RUN echo "2 8,20 * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-script && \
-    chmod 0644 /etc/cron.d/dcare-script && \
-    crontab /etc/cron.d/dcare-script
+RUN echo "2 8,20 * * * /usr/local/bin/python /app/dcare.py 2>> /volumes/dcare/dcare_error.log" > /etc/cron.d/dcare-cron-jobs && \
+    echo "0 2 * * * /usr/local/bin/logs.sh >> /var/log/cron.log 2>&1" >> /etc/cron.d/dcare-cron-jobs && \
+    chmod 0644 /etc/cron.d/dcare-cron-jobs && \
+    crontab /etc/cron.d/dcare-cron-jobs
 
 # Start the cron service in the background and tail logs to keep the container alive
 CMD cron && tail -f /dev/null
