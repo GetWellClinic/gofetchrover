@@ -1,6 +1,6 @@
 #!/bin/bash
 # Setup script for GoFetchRover
-# Version 2025.06.17
+# Version 2025.06.21
 
 # Note: This script should be run in ../bin directory for autodetect base directory to be correct
 
@@ -15,6 +15,12 @@ GOFETCHROVER=$(pwd)
 /bin/echo "...if this is not the desired or correct directory for GoFetchRover, please press Ctrl-C to cancel installation now!"
 read -p "	(Press any key to continue)"
 /bin/echo ""
+
+# Update timezone
+/bin/echo "Update your correct timezone to synchronize logs..."
+/bin/sleep 1s
+/bin/echo ""
+/usr/bin/tzselect
 
 # Backup with datestamp previous JSON config
 /bin/echo "Backing up existing JSON config files..."
@@ -51,6 +57,7 @@ read -p "	(Press any key to continue)"
 /bin/echo "...copying extract-pfx.sh tool..."
 /bin/sleep 1s
 /bin/cp $GOFETCHROVER/bin/extract-pfx.sh.sample $GOFETCHROVER/volumes/secrets/extract-pfx.sh
+/bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
 /bin/echo ""
 
 # Create group
@@ -78,7 +85,7 @@ USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
 /bin/echo "Fixing permissions..."
 /bin/sleep 1s
 /bin/chown rover:rover "$GOFETCHROVER" -R
-/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets $GOFETCHROVER/volumes/incoming $GOFETCHROVER/volumes/keys $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/rover $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/dcare/files $GOFETCHROVER/volumes/alphalab $GOFETCHROVER/volumes/alphalab/files $GOFETCHROVER/volumes/medhealth $GOFETCHROVER/volumes/medhealth/files 
+/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets $GOFETCHROVER/volumes/incoming $GOFETCHROVER/volumes/keys $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/rover $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/dcare/files $GOFETCHROVER/volumes/alphalab $GOFETCHROVER/volumes/alphalab/files $GOFETCHROVER/volumes/medhealth $GOFETCHROVER/volumes/medhealth/files $GOFETCHROVER/volumes/completedHL7dir $GOFETCHROVER/volumes/errorHL7dir
 /bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
 /bin/chmod ug+rx $GOFETCHROVER/gofetch
 /bin/chmod ug+rx $GOFETCHROVER/fetchnow

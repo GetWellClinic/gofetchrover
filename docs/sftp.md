@@ -1,21 +1,21 @@
-# SFTP Configuration Details
-# Version 2025.06.17
+# SFTP Configuration Details #
+**Document Version 2025.06.21**
 
 This script automates the installation process for SFTP downloader. It accepts a single argument that specifies the action to perform.
 
-## Usage
+## Usage ##
 
 ```bash
 ./gofetch [sftp] [medhealth | alphalab | ... ]
 ```
 
-## Setup Instructions
+## Setup Instructions ##
 
 **Prerequisite:**
 
 You have already installed GoFetchRover. [GoFetchRover Setup Guide](Readme.md)
 
-Mule should be installed. [Mule Setup Guide](mule.md)
+Mule should be installed, with all the OSCAR keypairs in ```volumes/keys``` and corresponding ```volumes/incoming``` lab folders. [Mule Setup Guide](mule.md)
 
 **Important:**  
 
@@ -58,27 +58,27 @@ Before running the setup command, ensure that the following contents in `volumes
     }   
     ```
 
-Parameter details:
+### Parameter details: ###
 
-hostname:   IP address or URL of SFTP site.
+**hostname**:   IP address or URL of SFTP site.
 
-remote_dir: Server location of the files to be downloaded.
+**remote_dir**: Server location of the files to be downloaded.
 
-local_dir: Location to save the downloaded files locally.
+**local_dir**: Location to save the downloaded files locally.
 
-mule_upload_dir: Location for Mule uploads.
+**mule_upload_dir**: Location for Mule uploads.
 
-last_downloaded_file: The modification time (mtime) of the last downloaded file.
+**last_downloaded_file**: The modification time (mtime) of the last downloaded file.
 
 For example, if last_downloaded_file is "2025-05-27 00:00:00", only files with an mtime after this timestamp will be downloaded.
 
-delete_files: Deletes files from the server if set to true.
+**delete_files**: Deletes files from the server if set to ```true```.
 
-delete_files_older_than: When set to 20, deletes files older than 20 days on the SFTP server. Files less than 15 days old will not be deleted as a precaution.
+**delete_files_older_than**: When set to 20, deletes files older than 20 days on the SFTP server. Files less than 15 days old will not be deleted as a precaution.
 
 For example, if the key file name for alphalab is `AlphaLabs.key` when mule was installed, the mule_upload_dir path will be `/volumes/incoming/AlphaLabs/`.
 
-### Running Setup
+### Running Setup ###
 For AlphaLabs
 ```bash
 ./gofetch sftp alphalab
@@ -87,7 +87,7 @@ For Med-Health Labs
 ```bash
 ./gofetch sftp medhealth
 ```
-### Updating Config File
+### Updating Config File ###
 If required, update the alphalab-config.json file. There is no need to rebuild; just restart the container.
 
 Example:
@@ -98,15 +98,15 @@ docker restart gofetchrover-alphalab-1
 The code is set up to run and download labs every 8 hrs, by default.
 To change the frequency to every 5 min, edit the Docker/sftp/Dockerfile file and update the following line:
 ``` bash
-RUN echo "1 8,20 * * * ...
+RUN echo "3 8,20 * * * ...
 ```
 Replace with `*/5 * * * *` for every 5 min, or with any other desired cron expression.
 
-### Log file
+### Log file ###
 Logs are available at: `volumes/alphalab/alphalab.log`
 
-### To add more labs
-To the docker compose file add
+### Adding Additional sFTP Lab Downloader ###
+To the docker compose file add the following code, replacing ```your_lab_name``` with your additional lab downloader:
 ```
 your_lab_name:
     restart: 'always'

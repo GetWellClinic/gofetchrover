@@ -1,4 +1,5 @@
 # Dynacare Configuration Details
+**Document Version 2025.06.21**
 
 This script automates the installation process for Dynacare. It accepts a single argument that specifies the action to perform.
 
@@ -29,9 +30,9 @@ Update the following JSON configuration with your specific values. Be sure to co
     "mule_upload_dir": "/volumes/incoming/Dynacare"
     
 ```
-save_dir: location to save the downloaded files.
+**save_dir**: location to save the downloaded files.
 
-mule_upload_dir: location for mule upload.
+**mule_upload_dir**: location for mule upload.
 
 For example, if the key file name for dynacare is `Dynacare.key` when mule was installed, the mule_upload_dir path will be `/volumes/incoming/Dynacare/`.
 
@@ -48,10 +49,10 @@ Example:
 docker restart gofetchrover-dcare-1
 ```
 ### Cron
-The code is set up to run and download labs every 8 hrs, by default.
+The code is set up to run and download labs in the morning and in the evening, by default.
 To change the frequency to every 5 min, edit the Docker/dcare/Dockerfile file and update the following line:
 ``` bash
-RUN echo "1 */8 * * * ...
+RUN echo "2 8,20 * * * ...
 ```
 Replace with `*/5 * * * *` for every 5 min, or with any other desired cron expression.
 

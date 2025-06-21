@@ -3,7 +3,7 @@
 # This script should reside and be run in the gofetchrover directory 'bin' in order to properly autodetect base directory for GoFetchRover.
 # Run the script as 'sudo ./install-services.sh'
 
-# Version 2025.06.16
+# Version 2025.06.21
 
 CURRENT=$(pwd)
 # Automatic detect base directory for GoFetchRover:
@@ -42,10 +42,10 @@ read -p "	(Press any key to continue)"
 # To stop services temporarily: 'sudo system gofetchrover stop'
 
 /bin/echo "	Tips:"
-/bin/echo "		to stop GoFetchRover Muled 'sudo system gofetchrover stop'"
-/bin/echo "		to start GoFetchRover Muled 'sudo system gofetchrover start'"
-/bin/echo "		to disable GoFetchRover Muled from restarting on reboot 'sudo systemctl disable gofetchrover.service'"
-/bin/echo "		to re-enable AI-MOA to restart automatically on reboot 'sudo systemctl enable gofetchrover.service'"
+/bin/echo "		to stop GoFetchRover 'sudo system gofetchrover stop'"
+/bin/echo "		to start GoFetchRover 'sudo system gofetchrover start'"
+/bin/echo "		to disable GoFetchRover from restarting on reboot 'sudo systemctl disable gofetchrover.service'"
+/bin/echo "		to re-enable GoFetchRover to restart automatically on reboot 'sudo systemctl enable gofetchrover.service'"
 /bin/echo ""
 
 # To disable system services, and prevent from restarting on reboot: 'sudo systemctl disable gofetchrover.service'
