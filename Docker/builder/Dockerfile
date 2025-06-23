@@ -24,7 +24,7 @@ RUN dpkg --add-architecture i386 && \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Download and install Maven
-RUN wget https://downloads.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz && \
+RUN wget https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.9/apache-maven-3.9.9-bin.tar.gz && \
     tar -xzf apache-maven-3.9.9-bin.tar.gz && \
     mv apache-maven-3.9.9 /opt/maven && \
     ln -s /opt/maven/bin/mvn /usr/bin/mvn && \
