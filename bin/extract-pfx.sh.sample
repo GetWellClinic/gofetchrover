@@ -1,7 +1,7 @@
 #!/bin/bash
 # Original script: gits.github.com/tomfanning/extract-pfx.sh
 # Modified for GoFetchRover
-# Version 2025.05.06
+# Version 2025.06.24
 
 # Autoset base directory for GoFetchRover
 ORIGIN=$(pwd)
@@ -63,7 +63,7 @@ openssl rsa -in "$filename"_priv.key -out "$filename"_priv.key -passin pass:$pfx
 openssl pkcs12 -in "$1" -clcerts -nokeys -out "$filename"_client.pem -passin pass:$pfxpass # > /dev/null
 
 # Extract root certificate
-openssl pkcs12 -in "$1" -cacerts -nokeys -out "$filename"_root.pem -passin pass:$pfxpass # > /dev/null
+openssl pkcs12 -in "$1" -cacerts -chain -nokeys -out "$filename"_root.pem -passin pass:$pfxpass # > /dev/null
 
 /bin/sleep 1s
 /bin/echo ""
