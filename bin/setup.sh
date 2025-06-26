@@ -6,107 +6,67 @@
 
 
 # Autodetect base directory for GoFetchRover
+
 cd ..
-GOFETCHROVER=$(pwd)
-/bin/echo ""
-/bin/echo "GoFetchRover will be setup/initialized with the following specified based directory..."
-/bin/echo "	BASE DIRECTORY: "$(pwd)
-/bin/echo ""
-/bin/echo "...if this is not the desired or correct directory for GoFetchRover, please press Ctrl-C to cancel installation now!"
-read -p "	(Press any key to continue)"
-/bin/echo ""
+export GOFETCHROVER=$(pwd)
 
-# Update timezone
-/bin/echo "Update your correct timezone to synchronize logs..."
-/bin/sleep 1s
-/bin/echo ""
-/usr/bin/tzselect
+echo "GOFETCHROVER is set to: $GOFETCHROVER"
 
-# Backup with datestamp previous JSON config
-/bin/echo "Backing up existing JSON config files..."
-/bin/sleep 1s
-/bin/cp "$GOFETCHROVER/volumes/rover/rover_config.json" "$GOFETCHROVER/volumes/rover/rover_config.json.$(date +'%Y-%m-%d')"
-/bin/cp "$GOFETCHROVER/volumes/dcare/dynacare_config.json" "$GOFETCHROVER/volumes/dcare/dynacare_config.json.$(date +'%Y-%m-%d')"
-/bin/cp "$GOFETCHROVER/volumes/alphalab/alphalab_config.json" "$GOFETCHROVER/volumes/alphalab/alphalab_config.json.$(date +'%Y-%m-%d')"
-/bin/cp "$GOFETCHROVER/volumes/medhealth/medhealth_config.json" "$GOFETCHROVER/volumes/medhealth/medhealth_config.json.$(date +'%Y-%m-%d')"
 
-# Create directories
-/bin/echo "Creating directories..."
-/bin/sleep 1s
-/bin/mkdir -p "$GOFETCHROVER/logs"
-/bin/mkdir -p "$GOFETCHROVER/volumes/secrets"
-/bin/mkdir -p "$GOFETCHROVER/volumes/keys"
-/bin/mkdir -p "$GOFETCHROVER/volumes/incoming"
-/bin/mkdir -p "$GOFETCHROVER/volumes/completedHL7dir"
-/bin/mkdir -p "$GOFETCHROVER/volumes/errorHL7dir"
-/bin/mkdir -p "$GOFETCHROVER/volumes/dcare/files"
-/bin/mkdir -p "$GOFETCHROVER/volumes/alphalab/files"
-/bin/mkdir -p "$GOFETCHROVER/volumes/medhealth/files"
-/bin/echo ""
+# Start directory creation
+echo "Creating directories..."
+sleep 1s
 
-# Create JSON from template
-/bin/echo "Creating new JSON configuration files from templates..."
-/bin/sleep 1s
-/usr/bin/cp "$GOFETCHROVER/volumes/rover/rover_config.json.example" "$GOFETCHROVER/volumes/rover/rover_config.json"
-/usr/bin/cp "$GOFETCHROVER/volumes/dcare/dynacare_config.json.example" "$GOFETCHROVER/volumes/dcare/dynacare_config.json"
-/usr/bin/cp "$GOFETCHROVER/volumes/alphalab/alphalab_config.json.example" "$GOFETCHROVER/volumes/alphalab/alphalab_config.json"
-/usr/bin/cp "$GOFETCHROVER/volumes/medhealth/medhealth_config.json.example" "$GOFETCHROVER/volumes/medhealth/medhealth_config.json"
-/bin/echo ""
+# Create directory structure
+mkdir -p "$GOFETCHROVER/volumes/secrets"
+mkdir -p "$GOFETCHROVER/volumes/keys"
+mkdir -p "$GOFETCHROVER/volumes/incoming"
+mkdir -p "$GOFETCHROVER/volumes/completedHL7dir"
+mkdir -p "$GOFETCHROVER/volumes/errorHL7dir"
+mkdir -p "$GOFETCHROVER/volumes/dcare/files"
+mkdir -p "$GOFETCHROVER/volumes/alphalab/files"
+mkdir -p "$GOFETCHROVER/volumes/medhealth/files"
 
-# Copying extract-pfx.sh tool
-/bin/echo "...copying extract-pfx.sh tool..."
-/bin/sleep 1s
-/bin/cp $GOFETCHROVER/bin/extract-pfx.sh.sample $GOFETCHROVER/volumes/secrets/extract-pfx.sh
-/bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
-/bin/echo ""
+echo "Created directories."
 
-# Create group
-/bin/echo "Creating group 'rover' and adding user to group..."
-/bin/sleep 1s
-/usr/sbin/useradd -m rover
-# Add current user to rover group
-/usr/sbin/usermod -a -G rover $USER
-# Add default first administrator username to "rover" group
-USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
-/usr/sbin/usermod -a -G rover $USERNAME
+echo "------------------------"
+echo "PFX Extraction Script"
+echo "------------------------"
 
-# Add current user and rover to docker group
-/usr/sbin/usermod -a -G docker rover
-/usr/sbin/usermod -a -G docker %USER
-/usr/sbin/usermod -a -G docker %USERNAME
+# Set default directory
+DEFAULT_PFX_DIR="$GOFETCHROVER/volumes/secrets"
 
-# Checking groups
-/bin/echo "Confirming current user belonging to the following groups (check for 'docker', and 'rover')..."
-/usr/bin/groups $USER
-/usr/bin/groups $USERNAME
-/usr/bin/groups rover
+# Prompt for just the filename
+read -p "Enter the name of your .pfx file (e.g. yourfile.pfx, path not required $GOFETCHROVER/volumes/secrets will be used): " PFX_NAME
+echo ""
 
-# Initialize Permissions
-/bin/echo "Fixing permissions..."
-/bin/sleep 1s
-/bin/chown rover:rover "$GOFETCHROVER" -R
-/bin/chmod g+rwx $GOFETCHROVER/volumes/secrets $GOFETCHROVER/volumes/incoming $GOFETCHROVER/volumes/keys $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/rover $GOFETCHROVER/volumes/dcare $GOFETCHROVER/volumes/dcare/files $GOFETCHROVER/volumes/alphalab $GOFETCHROVER/volumes/alphalab/files $GOFETCHROVER/volumes/medhealth $GOFETCHROVER/volumes/medhealth/files $GOFETCHROVER/volumes/completedHL7dir $GOFETCHROVER/volumes/errorHL7dir
-/bin/chmod g+rx $GOFETCHROVER/volumes/secrets/extract-pfx.sh
-/bin/chmod ug+rx $GOFETCHROVER/gofetch
-/bin/chmod ug+rx $GOFETCHROVER/fetchnow
-/bin/chmod ug+rx $GOFETCHROVER/mule
-# Protect files and directory from Others
-# /bin/chmod o-rwx "$GOFETCHROVER/volumes/secrets"
-# /bin/chmod o-rwx "$GOFETCHROVER/volumes/rover/xml"
-# /bin/chmod o-rwx "$GOFETCHROVER/volumes/rover/incomingHL7"
-# /bin/chmod o-rwx "$GOFETCHROVER/volumes/LabProperties.properties"
-# /bin/chmod o-rwx "$GOFETCHROVER/volumes/keys"
-# /bin/chmod o-rwx "$GOFETCHROVER/volumes/completedHL7dir"
-# /bin/chmod o-rwx "$GOFETCHROVER/volumes/errorHL7dir"
-# sudo sh -c "/bin/chmod o-rwx $GOFETCHROVER/volumes/rover/*.json" 
-# sudo sh -c "/bin/chmod o-rwx $GOFETCHROVER/volumes/dcare/*.json"
-/bin/echo ""
+# Append to full path
+PFX_FILE="$DEFAULT_PFX_DIR/$PFX_NAME"
 
-# Post-installation messages
-/bin/echo "Read ../docs/*.md for instructions on installing mule HL7-uploader, and lab connectors."
-/bin/echo ""
+# Check if file exists
+if [ ! -f "$PFX_FILE" ]; then
+  echo "File not found: $PFX_FILE"
+  exit 1
+fi
 
-# Reload group without logging out
-#/bin/echo "...reload groups without logging in/out..."
-#/bin/newgrp rover docker
-#/bin/echo ""
+# Prompt once for password (no echo)
+read -s -p "Enter PFX file password: " PFX_PASSWORD
+echo ""
+
+# Extract the private key (unencrypted with -nodes)
+echo "Extracting private key to client_key.pem..."
+openssl pkcs12 -in "$PFX_FILE" -nocerts -nodes -passin pass:"$PFX_PASSWORD" -out $GOFETCHROVER/volumes/secrets/client_key.pem
+
+# Extract the client certificate
+echo "Extracting client certificate to client_certificate.pem..."
+openssl pkcs12 -in "$PFX_FILE" -clcerts -nokeys -passin pass:"$PFX_PASSWORD" -out $GOFETCHROVER/volumes/secrets/client_certificate.pem
+
+# Extract the root/CA certificate(s)
+echo "Extracting CA certificate(s) to root_certificate.pem..."
+openssl pkcs12 -in "$PFX_FILE" -cacerts -nokeys -passin pass:"$PFX_PASSWORD" -out $GOFETCHROVER/volumes/secrets/root_certificate.pem
+
+echo ""
+echo "Extraction complete. Files saved in:"
+echo " - $GOFETCHROVER/volumes/secrets/client_key.pem"
+echo " - $GOFETCHROVER/volumes/secrets/client_certificate.pem"
+echo " - $GOFETCHROVER/volumes/secrets/root_certificate.pem"

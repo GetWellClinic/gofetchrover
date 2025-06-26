@@ -1,77 +1,46 @@
 #!/bin/bash
-# This script helps you install Docker, Docker Compose, and Python pip
+# This script helps you install Docker, Docker Compose
 # This script should be run as 'sudo ./install-docker.sh'
 # Version 2025.06.06
+# Add Docker's official GPG key:
 
-CURRENT=$(pwd)
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run this script as root (e.g., with: sudo ./install-docker.sh)"
+  exit 1
+fi
 
-# Change to home directory
-cd ~/
+set -e  # Exit immediately if a command exits with a non-zero status
 
-# apt-get update
-# apt-get install ubuntu-drivers-common
-# ubuntu-drivers devices
-# apt install nvidia-driver-550
-# Need to reboot server, for installation to take effect and see the NVIDIA RTX working:
-# nvidia-smi
-
-# Install Docker:
-
-# Install Docker repository GPG key to keyring:
-/bin/curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-
-# Add Docker repository to Apt resources:
-/bin/echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "Updating package lists..."
 apt-get update
 
-# Install latest Docker
-apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+echo "Installing required packages..."
+apt-get install -y ca-certificates curl gnupg lsb-release
 
-# Can confirm docker running by testing hello-world docker:
-# docker run hello-world
+echo "Adding Docker's official GPG key..."
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
 
-# Install Python pip package manager if not installed
-apt-get -y install python3-pip
+echo "Setting up Docker repository..."
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
+  https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# Install Docker Compose
-apt-get -y install docker-compose
-pip install docker-compose
-# Hint: New Docker Compose command has no space, ie. 'docker compose'
+echo "Updating package lists again..."
+apt-get update
 
-# Confirm Docker Version
-docker --version
+echo "Installing Docker components..."
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# Add current user to 'docker' group
-/usr/sbin/usermod -a -G docker $USER
-/usr/sbin/usermod -a -G docker rover
-# Add default first administrator username to 'docker' group
-USERNAME=$(awk -F':' -v uid=1000 '$3 == uid { print $1 }' /etc/passwd)
-/usr/sbin/usermod -a -G docker $USERNAME
-/bin/newgrp docker
-/bin/echo ""
-/bin/echo "Confirming current user belonging to the following groups (check for 'docker')..."
-/usr/bin/groups $USER
-/usr/bin/groups $USERNAME
-/usr/bin/groups rover
+echo "Enabling and starting Docker service..."
+systemctl enable docker
+systemctl start docker
 
-# Install NVIDIA Container Toolkit:
-#
-# ** This needs to be installed before running the next part of the script. Check readme.md **
-#
-# curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-# 	&& curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-#	sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-#	sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-#
-# apt-get update
-# apt-get install nvidia-container-toolkit
-#
-# ** Restart the server for installation to take effect and continue (ie. shutdown -r now) **
+echo "Adding user '$USER' to docker group..."
+usermod -aG docker $USER
 
-# Configure Docker to use NVIDIA Container Toolkit
-# /bin/echo "Configuring Docker to use NVIDIA Container Toolkit"
-# nvidia-ctk runtime configure --runtime=docker
-# systemctl restart docker
-
-# Go back to previous path location
-cd $CURRENT
+echo "Docker installation complete."
+echo "Please reboot to apply the changes."

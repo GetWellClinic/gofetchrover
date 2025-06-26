@@ -1,6 +1,6 @@
 services:
         muled:
-            restart: 'always'
+            restart: unless-stopped
             build: Docker/muled
             volumes:
                 - ./volumes:/volumes
@@ -8,7 +8,7 @@ services:
                 - /etc/localtime:/etc/localtime:ro
                 - /etc/timezone:/etc/timezone:ro
         rover:
-            restart: 'always'
+            restart: unless-stopped
             build: Docker/rover
             volumes:
                 - ./volumes:/volumes
@@ -16,14 +16,14 @@ services:
                 - /etc/localtime:/etc/localtime:ro
                 - /etc/timezone:/etc/timezone:ro
         dcare:
-            restart: 'always'
+            restart: unless-stopped
             build: Docker/dcare
             volumes:
                 - ./volumes:/volumes
                 - /etc/localtime:/etc/localtime:ro
                 - /etc/timezone:/etc/timezone:ro
         medhealth:
-            restart: 'always'
+            restart: unless-stopped
             build:
                 context: Docker/sftp
                 args:
@@ -33,7 +33,7 @@ services:
                 - /etc/localtime:/etc/localtime:ro
                 - /etc/timezone:/etc/timezone:ro
         alphalab:
-            restart: 'always'
+            restart: unless-stopped
             build:
                 context: Docker/sftp
                 args:
