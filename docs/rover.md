@@ -23,14 +23,12 @@ You have received a Lifelabs PFX encrypted file with certificates.
 
 Copy your PFX file that Lifelabs provides you to `volumes/secrets/`.
 
-Extract the contents of the PFX file (ie. 'clinic-lifelabs.pfx') with the password supplied by Lifelabs.
+To extract the contents of the PFX file (ie. 'clinic-lifelabs.pfx') with the password supplied by Lifelabs.
 
-    ```
-    cd /opt/gofetchrover/secrets
-    ./extract-pfx.sh clinic-lifelabs.pfx
-    (Enter the Lifelabs provided password)
-    (Answer Yes to 'Do you want to move the certificates to the default location')
-    ls -l -h
+   ```
+    cd /opt/gofetchrover/bin
+    ./setup.sh
+    (Enter password for PFX file)
     ```
 
 ### Edit Rover configuration file

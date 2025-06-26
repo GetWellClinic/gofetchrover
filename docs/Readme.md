@@ -44,7 +44,7 @@ Note: You may create a new user and log in as that user if you prefer. The user 
 
 	Upload the Lifelabs PFX file securely to /opt/gofetchrover/volumes/secrets/ with your favourite SSH/SCP terminal.
 
-	Extract and install the certificates and private key from Lifelabs:
+	To extract and install the certificates and private key from Lifelabs:
 	```
 	cd /opt/gofetchrover/bin
 	./setup.sh
@@ -102,8 +102,7 @@ Note: You may create a new user and log in as that user if you prefer. The user 
 5. Edit the configuration files for each lab connector
 
 	```
-	sudo nano /opt/gofetchrover/volumes/rover/LabProperties.properties
-	sudo nano /opt/gofetchrover/volumes/dcare/dynacare_config.json
+	nano /opt/gofetchrover/volumes/LabProperties.properties
 	```
 
 6. Mule Build
@@ -132,7 +131,7 @@ Note: You may create a new user and log in as that user if you prefer. The user 
 
 	**Alphalabs**: Read [sftp.md](sftp.md)
 
-	**Med-Health** Labs: Read [sftp.md(sftp.md)]
+	**Med-Health** Labs: Read [sftp.md](sftp.md)
 
 9. Install GoFetchRover as a system service
 
