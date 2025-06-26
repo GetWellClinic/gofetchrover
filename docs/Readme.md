@@ -22,15 +22,15 @@ GoFetchRover is a HL7/XML lab downloader for OSCAR that works with:
 ## Installation ##
 Note: You may create a new user and log in as that user if you prefer. The user who runs the following commands will be added to the docker group in step 2.
 
-1. Download the repository on GitHub
+1. Download the repository on GitHub, use your owner_name and group_name
 
 	```
-	sudo chown g+rx /opt
 	cd /opt
-	sudo git pull https://github.com/GetWellClinic/gofetchrover.git
+	sudo git clone https://github.com/GetWellClinic/gofetchrover.git
+	sudo chown -R owner_name:group_name gofetchrover/
 	cd /opt/gofetchrover
-	sudo git branch --show-current
-	sudo git checkout [dev|main]
+	git branch --show-current
+	git checkout [dev|main]
 	```
 
 2. Install pre-requisites (Docker and Docker Compose), and initialize GoFetchRover
