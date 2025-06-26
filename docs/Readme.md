@@ -20,6 +20,7 @@ GoFetchRover is a HL7/XML lab downloader for OSCAR that works with:
 ## Introduction ##
 
 ## Installation ##
+Note: You may create a new user and log in as that user if you prefer. The user who runs the following commands will be added to the docker group in step 2.
 
 1. Download the repository on GitHub
 
@@ -36,9 +37,18 @@ GoFetchRover is a HL7/XML lab downloader for OSCAR that works with:
 
 	```
 	cd /opt/gofetchrover/bin
-	sudo chmod ug+rx *.sh
 	sudo ./install-docker.sh
-	sudo ./setup.sh
+	```
+	Reboot system and then,
+	Lifelabs will provide you with login details, and an encrypted certificate package in PFX format.
+
+	Upload the Lifelabs PFX file securely to /opt/gofetchrover/volumes/secrets/ with your favourite SSH/SCP terminal.
+
+	Extract and install the certificates and private key from Lifelabs:
+	```
+	cd /opt/gofetchrover/bin
+	./setup.sh
+	(Enter password for PFX file)
 	```
 
 3. Upload the OSCAR lab connector Key Pairs
@@ -79,61 +89,42 @@ GoFetchRover is a HL7/XML lab downloader for OSCAR that works with:
 		1. Name each keypair file with a descriptive name (ie. use the Service Name as the filename) and no spaces.
 		2. Upload the *.key files to /opt/gofetchrover/volumes/keys/ with your favourite SSH/SCP terminal.
 
-
-4. Extract the certificates and key from Lifelabs
-
-	Lifelabs will provide you with login details, and an encrypted certificate package in PFX format.
-
-	Upload the Lifelabs PFX file securely to /opt/gofetchrover/volumes/secrets/ with your favourite SSH/SCP terminal.
-
-	Extract and install the certificates and private key from Lifelabs:
-	```
-	cd /opt/gofetchrover/volumes/secrets
-	sudo extract-pfx.sh {lifelabs_client.pfx}
-	(Enter password for PFX file)
-	(Choose Yes to 'Do you want to move the files to default location')
-	```
-
-5. Mule Setup
+4. Mule Setup
 
 	You need to repeat this SETUP step everytime you add a new lab connector.
 
 	```
 	cd /opt/gofetchrover
-	sudo ./mule setup
-	cd bin
-	sudo ./fix-permissions.sh
+    ./mule setup
 	```
 	Read more in the document [mule.md](mule.md) for detailed instructions.
 
-6. Edit the configuration files for each lab connector
+5. Edit the configuration files for each lab connector
 
 	```
 	sudo nano /opt/gofetchrover/volumes/rover/LabProperties.properties
 	sudo nano /opt/gofetchrover/volumes/dcare/dynacare_config.json
 	```
 
-7. Mule Build
+6. Mule Build
 
 	You will also need to repeat this BUILD step everytime you add a new lab connector.
 
 	```
 	cd /opt/gofetchrover
-	sudo ./mule build
-	cd bin
-	sudo ./fix-permissions.sh
+	./mule build
 	```
 	Read more in the document [mule.md](mule.md) for detailed instructions.
 
-8. Run Mule on first installation
+7. Run Mule on first installation
 
 	```
 	cd /opt/gofetchrover
-	sudo ./mule run
-	sudo docker ps -a
+	./mule run
+	docker ps -a
 	```
 
-9. Install the lab downloaders:
+8. Install the lab downloaders:
 						
 	**Lifelabs/Rover**: Read [rover.md](rover.md)
 
@@ -143,13 +134,9 @@ GoFetchRover is a HL7/XML lab downloader for OSCAR that works with:
 
 	**Med-Health** Labs: Read [sftp.md(sftp.md)]
 
-10. Install GoFetchRover as a system service
+9. Install GoFetchRover as a system service
 
-	Installing as a service will allow GoFetchRover to autorestart on reboots.
-	```
-	cd /opt/gofetchrover/bin
-	sudo ./install-services.sh
-	```
+The system is already configured to restart containers that were running during a system reboot.
 
 ## Maintenance ##
 	
@@ -214,16 +201,8 @@ cd /opt/gofetchrover
 	or
 	sudo tzselect
 	```
-6. Fixing Permissions
-
-	Sometimes, GoFetchRover gives off errors, most often because of permissions issues. You can fix the permissions with:
-	```
-	cd /opt/gofetchrover/bin
-	sudo chmod ug+rx ./fix-permissions.sh
-	sudo ./fix-permissions.sh
-	```
-
-7. Updating GoFetchRover
+	
+6. Updating GoFetchRover
 
 	Note: you may need to run these commands with `sudo`.
 
@@ -240,12 +219,7 @@ cd /opt/gofetchrover
 	```
 	git pull
 	```
-	Fix permissions
-	```
-	cd bin
-	sudo chmod ug+rx fix-permissions.sh
-	sudo ./fix-permissions.sh
-	```
+	
 	Edit the JSON configuration files as needed.
 
 	You may need to rebuild docker containers for the latest changes to take effect. Run the `gofetch` scripts again:
