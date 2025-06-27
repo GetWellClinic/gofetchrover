@@ -20,7 +20,24 @@ GoFetchRover is a HL7/XML lab downloader for OSCAR that works with:
 ## Introduction ##
 
 ## Installation ##
-Note: You may create a new user and log in as that user if you prefer. The user who runs the following commands will be added to the docker group in step 2.
+
+Note: You may create a new user and log in as that user if you prefer. The user who runs the following commands will be added to the docker group in step 2. We recommend using dedicated user (such as "rover" ) to run GoFetchRover
+
+Example to create a user 'rover' and add the rover user to a group 'rover'
+```
+sudo /usr/sbin/useradd -m -s /bin/bash rover
+sudo passwd rover         
+sudo groupadd rover 
+sudo /usr/sbin/usermod -a -G rover $USER
+```
+To add the user rover to the sudo group (so they can run commands with elevated privileges), run:
+```
+sudo usermod -aG sudo rover
+```
+To remove the user rover from the sudo group after installing:
+```
+sudo deluser rover sudo
+```
 
 1. Download the repository on GitHub, use your owner_name and group_name
 
