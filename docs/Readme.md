@@ -40,6 +40,7 @@ Note: You may create a new user and log in as that user if you prefer. The user 
 	sudo ./install-docker.sh
 	```
 	Reboot system and then,
+	
 	Lifelabs will provide you with login details, and an encrypted certificate package in PFX format.
 
 	Upload the Lifelabs PFX file securely to /opt/gofetchrover/volumes/secrets/ with your favourite SSH/SCP terminal.
