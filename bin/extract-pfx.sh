@@ -11,6 +11,13 @@ echo "------------------------"
 cd ..
 export GOFETCHROVER=$(pwd)
 
+echo ""
+echo ""
+echo " Directory listing for: $GOFETCHROVER/volumes/secrets/"
+ls -la $GOFETCHROVER/volumes/secrets/
+echo ""
+echo ""
+
 # Set default directory
 DEFAULT_PFX_DIR="$GOFETCHROVER/volumes/secrets"
 
@@ -62,5 +69,3 @@ echo " - $GOFETCHROVER/volumes/secrets/client_key$filename.pem"
 echo " - $GOFETCHROVER/volumes/secrets/client_certificate$filename.pem"
 echo " - $GOFETCHROVER/volumes/secrets/root_certificate$filename.pem"
 echo ""
-
-ls -la $GOFETCHROVER/volumes/secrets/
