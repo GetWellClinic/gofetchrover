@@ -56,7 +56,7 @@ sudo deluser rover sudo
     cd /opt/gofetchrover/bin
     sudo ./install-docker.sh
     ```
-    Reboot system and then,
+    Reboot the system and then,
     
     Lifelabs will provide you with login details, and an encrypted certificate package in PFX format.
 

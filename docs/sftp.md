@@ -1,7 +1,7 @@
 # SFTP Configuration Details #
 **Document Version 2025.06.21**
 
-This script automates the installation process for SFTP downloader. It accepts a single argument that specifies the action to perform.
+This script automates the installation process for the SFTP downloader. It accepts a single argument that specifies the action to perform.
 
 ## Usage ##
 

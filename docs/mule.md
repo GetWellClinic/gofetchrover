@@ -50,7 +50,7 @@ Proper configuration of the `smtpServer`, `senderEmailAddress`, and `recipientEm
 
 After the above changes, use `./mule build` to build the app with all the keys and settings.
 
-Once build successfully use `./mule run` to start mule.
+Once built successfully, use `./mule run` to start mule.
 
 Use `docker ps -a` to view the docker app running.
 

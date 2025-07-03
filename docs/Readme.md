@@ -173,7 +173,7 @@ docker stop [ gofetchrover-muled-1 | gofetchrover-rover-1 | gofetchrover-dcare-1
 
 2. Modifying JSON configuration files:
 
-Everytime you modify any of the lab JSON configuration files, remember to rebuild the docker container
+Every time you modify any of the lab JSON configuration files, remember to rebuild the docker container
 ```
 cd /opt/gofetchrover
 ./gofetch [ rover | dcare ]
@@ -182,7 +182,7 @@ cd /opt/gofetchrover
 
 3. Initiate lab download on demand
 
-This will trigger GoFetchRover to execute the labdownload script on demand, once.
+This will trigger GoFetchRover to execute the lab download script on demand, once.
 ```
 cd /opt/gofetchrover
 ./fetchnow [ rover | dcare | alphalab | medhealth ]

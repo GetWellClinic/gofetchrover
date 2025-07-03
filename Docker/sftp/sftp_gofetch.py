@@ -11,7 +11,7 @@ script_dir = f"/volumes/{SFTP_NAME}"
 
 log_file = f"/volumes/{SFTP_NAME}/{SFTP_NAME}.log"
 
-sftp_config_file = SFTP_NAME +"_config.json"
+sftp_config_file = f"{SFTP_NAME}_config.json"
 
 logging.basicConfig(filename=log_file, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -154,7 +154,7 @@ def sftp_gofetch_downloader():
                         logger.error(f"Failed to copy file from {source} to {destination} (incoming mule folder): {e}")
 
                 except Exception as download_error:
-                    logger.error(f"Error downloading {remote_file}: {download_error}")
+                    logger.error(f"Error downloading {file_attr.filename}: {download_error}")
                     if latest_mtime != last_downloaded_dt:
                         config["last_downloaded_file"] = latest_mtime.strftime("%Y-%m-%d %H:%M:%S")
                         save_config(config)
