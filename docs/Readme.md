@@ -1,7 +1,7 @@
 # GoFetchRover
 *Copyright © 2024 by Spring Health Corporation, Toronto, Ontario, Canada*<br />
 *LICENSE: GNU Affero General Public License Version 3*<br />
-**Document Version 2025.06.21**
+**Document Version 2025.07.03**
 
 GoFetchRover is a HL7/XML lab downloader for OSCAR that works with:
 - LifeLabs Excelleris/Rover (XML/HL7)
@@ -56,7 +56,7 @@ sudo deluser rover sudo
 	cd /opt/gofetchrover/bin
 	sudo ./install-docker.sh
 	```
-	Reboot system and then,
+	Reboot the system and then,
 	
 	Lifelabs will provide you with login details, and an encrypted certificate package in PFX format.
 
