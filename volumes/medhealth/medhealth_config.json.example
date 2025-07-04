@@ -1,0 +1,12 @@
+{
+    "hostname": "Host Address",
+    "port": 22,
+    "username": "username",
+    "password": "password",
+    "remote_dir": "/",
+    "local_dir": "/volumes/medhealth/files",
+    "mule_upload_dir": "/volumes/incoming/medhealth",
+    "last_downloaded_file": "2025-05-27 00:00:00",
+    "delete_files" : false,
+    "delete_files_older_than" : 365
+}

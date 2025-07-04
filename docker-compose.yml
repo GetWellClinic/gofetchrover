@@ -1,0 +1,44 @@
+services:
+        muled:
+            restart: unless-stopped
+            build: Docker/muled
+            volumes:
+                - ./volumes:/volumes
+                - ./Docker/mule/:/mule/
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro
+        rover:
+            restart: unless-stopped
+            build: Docker/rover
+            volumes:
+                - ./volumes:/volumes
+                - ./Docker/mule/mule-1.3.3/logs:/mule/logs/
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro
+        dcare:
+            restart: unless-stopped
+            build: Docker/dcare
+            volumes:
+                - ./volumes:/volumes
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro
+        medhealth:
+            restart: unless-stopped
+            build:
+                context: Docker/sftp
+                args:
+                    SFTP_NAME: medhealth
+            volumes:
+                - ./volumes:/volumes
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro
+        alphalab:
+            restart: unless-stopped
+            build:
+                context: Docker/sftp
+                args:
+                    SFTP_NAME: alphalab
+            volumes:
+                - ./volumes:/volumes
+                - /etc/localtime:/etc/localtime:ro
+                - /etc/timezone:/etc/timezone:ro

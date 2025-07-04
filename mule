@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Function to display usage instructions
+usage() {
+  echo "Usage: $0 [setup|build|run]"
+  exit 1
+}
+
+# Check for exactly one argument
+if [ "$#" -ne 1 ]; then
+  usage
+fi
+
+ACTION=$1
+
+case "$ACTION" in
+  setup)
+    echo "Configuring Mule"
+    ./bin/setup-mule.sh
+    ;;
+  build)
+    echo "Building Mule"
+    ./bin/mule-build.sh
+    ;;
+  run)
+    echo "Running Mule"
+    ./bin/mule-run.sh
+    ;;
+  *)
+    echo "Invalid option: $ACTION"
+    usage
+    ;;
+esac

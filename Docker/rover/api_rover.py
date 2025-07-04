@@ -1,24 +1,3 @@
-# COPYRIGHT © 2024 by Spring Health Corporation <office(at)springhealth.org>
-# Toronto, Ontario, Canada
-# SUMMARY: This file is part of the Get Well Clinic's original "GoFetchRover" project's collection of software,
-# documentation, and configuration files.
-# These programs, documentation, and configuration files are made available to you as open source
-# in the hopes that your clinic or organization may find it useful and improve your care to the public
-# by reducing administrative burden for your staff and service providers. 
-# NO WARRANTY: This software and related documentation is provided "AS IS" and WITHOUT ANY WARRANTY of any kind;
-# and WITHOUT EXPRESS OR IMPLIED WARRANTY OF SUITABILITY, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
-# LICENSE: This software is licensed under the "GNU Affero General Public License Version 3".
-# Please see LICENSE file for full details. Or contact the Free Software Foundation for more details.
-# ***
-# NOTICE: We hope that you will consider contributing to our common source code repository so that
-# others may benefit from your shared work.
-# However, if you distribute this code or serve this application to users in modified form,
-# or as part of a derivative work, you are required to make your modified or derivative work
-# source code available under the same herein described license.
-# Please notify Spring Health Corp <office(at)springhealth.org> where your modified or derivative work
-# source code can be acquired publicly in its latest most up-to-date version, within one month.
-# ***
-
 import requests
 import os
 import xml.etree.ElementTree as ET
@@ -30,10 +9,11 @@ import sys
 import time
 import logging
 
-# Step 1: Get the directory of the current script
-script_dir = os.path.dirname(os.path.abspath(__file__))
+script_dir = "/volumes/rover/"
 
-logging.basicConfig(filename='gfr.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+log_file = "/volumes/rover/gfr.log"
+
+logging.basicConfig(filename=log_file, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Create a logger
 logger = logging.getLogger(__name__)
@@ -41,13 +21,20 @@ logger = logging.getLogger(__name__)
 # Define the lock file path
 lock_file = script_dir + 'rover.lock'
 
-# Step 2: Construct the path to the configuration file
+# Construct the path to the configuration file
 config_path = os.path.join(script_dir, 'rover_config.json')
 
-# Step 3: Load the configuration file
+# Load the configuration file
 def load_config(config_file):
-    with open(config_file, 'r') as file:
-        return json.load(file)
+    try:
+        with open(config_file, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        logging.error(f"File not found: {config_file}")
+    except json.JSONDecodeError:
+        logging.error(f"Error decoding JSON from the file: {config_file}")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
 
 # Load the configuration
 config = load_config(config_path)
@@ -64,7 +51,8 @@ incoming_xml_folder_path = config["incoming_xml_folder_path"]
 incomingMuleFolder = config["incomingMuleFolder"]
 app_name = config["app_name"]
 app_version = config["app_version"]
-mule_log_file = config["mule_log_file"]
+verification_interval = config["verification_interval"]
+mule_log_file = "/mule/logs/mule.log"
 
 def is_locked():
     """Check if the lock file exists."""
@@ -79,29 +67,7 @@ def remove_lock():
     """Remove the lock file."""
     os.remove(lock_file)
 
-def check_log_for_upload(xml_file_name):
-    """Check if the log file contains the specified search string in the last 1000 lines."""
-    search_string = "file: " + xml_file_name + ", Successfully Uploaded"
-    
-    try:
-        with open(mule_log_file, 'r') as file:
-            # Read the last 1000 lines
-            lines = file.readlines()[-1000:]  # Get the last 1000 lines
-            
-            for line in lines:
-                if search_string in line:
-                    return True
-    except FileNotFoundError:
-        logger.error(f"Log file '{mule_log_file}' not found.")
-        return False
-    except Exception as e:
-        logger.error(f"An error occurred: {e}")
-        return False
-
-    return False
-
-
-# Step 1: Authentication
+# Authentication
 def authenticate(base_url):
     try:
         with requests.Session() as session:
@@ -128,11 +94,6 @@ def authenticate(base_url):
 
             # Check response status and content
             if response.status_code == 200:
-                # print(base_url)
-                # print(response.status_code)
-                # print(response.headers)
-                # print(response.text)
-                # print(session.cookies)
                 if '<Authentication>AccessGranted</Authentication>' in response.text:
                     # Save cookies for later use
                     cookies = session.cookies
@@ -185,9 +146,13 @@ def query_new_results(session, base_url, cookies, pending=False):
         file_name = f'response_{timestamp}.xml'
         file_path = os.path.join(incoming_xml_folder_path, file_name)
         
-        with open(file_path, 'w') as file:
-            file.write(response.text)
-        logger.info(f"Response saved to {file_path}")
+        try:
+            with open(file_path, 'w') as file:
+                file.write(response.text)
+            logger.info(f"Response saved to {file_path}")
+        except Exception as e:
+            logger.error(f"Failed to write file: {e}")
+            return False
 
         # Verify the count
         if actual_count != message_count:
@@ -199,18 +164,14 @@ def query_new_results(session, base_url, cookies, pending=False):
         source = file_path
         destination = incomingMuleFolder
 
-        # Copy the file
-        shutil.copy(source, destination)
-
-        logger.info(f"File copied from {source} to {destination}")
-
-        time.sleep(30)
-
-        if check_log_for_upload(file_name):
-            return True
-        else:
-            logger.info(f"Oscar upload failed for {file_name}.")
-            return False
+        try:
+            # Copy the file
+            shutil.copy(source, destination)
+            logger.info(f"File copied from {source} to {destination} (incoming mule folder)")
+        except Exception as e:
+            logger.error(f"Failed to copy file from {source} to {destination} (incoming mule folder): {e}")
+        
+        return True
 
         # Process and save each message into HL7
         # for i, message in enumerate(messages):
@@ -259,12 +220,14 @@ def sign_out(session, base_url, cookies):
 
 def main():
 
-    if is_locked():
-        logger.info("Script is already running. Exiting.")
-        sys.exit(1)
+    logger.info("Script is running")
+
+    # if is_locked():
+    #     logger.info("Script is already running. Exiting.")
+    #     sys.exit(1)
 
     # Create a lock file
-    create_lock()
+    # create_lock()
 
     os.makedirs(incoming_HL7_folder_path, exist_ok=True)
     os.makedirs(incoming_xml_folder_path, exist_ok=True)
@@ -276,15 +239,15 @@ def main():
 
         if(status == True):
             send_acknowledgement(session, base_url, cookies, positive=True)
-            logger.info("positive send acknowledgement")
+            logger.info("Positive acknowledgement send")
         else:
             send_acknowledgement(session, base_url, cookies, positive=False)
-            logger.info("negative send acknowledgement")
+            logger.info("Negative acknowledgement send")
 
         sign_out(session, base_url, cookies)
 
     # Ensure the lock file is removed after the script finishes
-    remove_lock()
+    # remove_lock()
 
 if __name__ == "__main__":
     main()

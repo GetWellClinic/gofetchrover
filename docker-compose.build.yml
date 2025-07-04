@@ -1,0 +1,7 @@
+services:
+
+    builder:
+      build: Docker/builder
+      volumes:
+      - .:/code
+      working_dir: /code

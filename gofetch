@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Check if a parameter is passed
+if [ -z "$1" ]; then
+    echo "Error: No service name provided. Please provide 'rover', 'dcare' or sftp."
+    exit 1
+fi
+
+# Use the parameter to determine which service to run
+SERVICE=$1
+
+# Validate the service name
+if [ "$SERVICE" != "rover" ] && [ "$SERVICE" != "dcare" ] && [ "$SERVICE" != "sftp" ]; then
+    echo "Error: Invalid service name. Please provide either 'rover', 'dcare' or sftp."
+    exit 1
+fi
+
+# If the service is 'sftp', check for the second parameter and compare it
+if [ "$SERVICE" == "sftp" ]; then
+    if [ -z "$2" ]; then
+        echo "Error: SFTP name is required when using the 'sftp' service."
+        exit 1
+    fi
+
+    SFTP_NAME=$2
+
+    # Validate the service name
+    if [ "$SFTP_NAME" != "medhealth" ] && [ "$SFTP_NAME" != "alphalab" ]; then
+        echo "Error: Invalid service name. Please provide either 'medhealth' or 'alphalab'."
+        exit 1
+    fi
+    SERVICE=$SFTP_NAME
+fi
+
+# Run the docker-compose up command for the selected service
+# docker-compose up -d --build $SERVICE # Deprecated usage
+docker compose up -d --build --force-recreate $SERVICE
+ 
